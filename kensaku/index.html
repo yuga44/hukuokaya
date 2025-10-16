@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>検索フォーム</title>
+</head>
+<body>
+
+  <form onsubmit="doSearch(event)">
+    <div>
+      <input type="search" id="mySearch" name="q" placeholder="キーワードを入力...">
+      <button>検索</button>
+    </div>
+  </form>
+
+  <script>
+    function doSearch(event) {
+      event.preventDefault(); // ページのリロードを防止
+      const query = document.getElementById('mySearch').value.trim();
+      if (query) {
+        alert(`「${query}」で検索しました。`);
+      } else {
+        alert('検索ワードを入力してください。');
+      }
+    }
+  </script>
+
+</body>
+</html>
