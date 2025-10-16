@@ -1,0 +1,17 @@
+.mypage-item {
+  display: flex;
+  align-items: center;
+  background-color: #ebebeb;
+  border-radius: 12px;
+  border: 1px solid #d8d8d8;
+  padding: 20px;
+  margin-top: 7px;
+  width: 90%;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+}
+
+.mypage-item:hover {
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
+	transform: translateY(-0.1875em);
+}
