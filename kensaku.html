@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>検索ページ</title>
+</head>
+<body>
+
+  <h1>検索ページ</h1>
+
+  <!-- 検索フォーム -->
+  <form>
+    <div>
+      <input type="search" name="q" placeholder="キーワードを入力...">
+      <button>検索</button>
+    </div>
+  </form>
+
+  <hr>
+
+  <!-- メニュー -->
+  <nav>
+    <button>カテゴリ</button>
+    <button>ブランド</button>
+    <button>新着順</button>
+    <button>人気順</button>
+  </nav>
+
+  <hr>
+
+  <!-- 各画面 -->
+  <div id="category">
+    <h2>カテゴリ</h2>
+    <p>カテゴリ別の商品一覧を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+  </div>
+
+  <div id="brand">
+    <h2>ブランド</h2>
+    <p>ブランドごとの商品一覧を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+  </div>
+
+  <div id="new">
+    <h2>新着順</h2>
+    <p>新しく追加された商品を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+  </div>
+
+  <div id="popular">
+    <h2>人気順</h2>
+    <p>人気の高い商品を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+  </div>
+
+      <nav class="navigation-rail">
+      <div class="nav-item">
+        <img src="img/icon-3.svg" alt="メインページ" />
+        <span>メインページ</span>
+      </div>
+      <div class="nav-item">
+        <img src="img/icon-8.svg" alt="マイページ" />
+        <span>マイページ</span>
+      </div>
+      <div class="nav-item">
+        <img src="img/icon-8.svg" alt="カート" />
+        <span>カート</span>
+      </div>
+      <div class="nav-item">
+        <img src="img/icon-8.svg" alt="出品" />
+        <span>出品</span>
+      </div>
+    </nav>
+
+</body>
+</html>
