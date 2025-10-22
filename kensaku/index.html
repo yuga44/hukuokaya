@@ -8,62 +8,73 @@
 
   <h1>検索ページ</h1>
 
-   
-    <form onsubmit="doSearch(event)">
+  <!-- 検索フォーム -->
+  <form>
     <div>
-      <input type="search" id="mySearch" name="q" placeholder="キーワードを入力...">
+      <input type="search" name="q" placeholder="キーワードを入力...">
       <button>検索</button>
     </div>
   </form>
 
   <hr>
 
+  <!-- メニュー -->
   <nav>
-    <button onclick="showPage('category')">カテゴリ</button>
-    <button onclick="showPage('brand')">ブランド</button>
-    <button onclick="showPage('new')">新着順</button>
-    <button onclick="showPage('popular')">人気順</button>
+    <button>カテゴリ</button>
+    <button>ブランド</button>
+    <button>新着順</button>
+    <button>人気順</button>
   </nav>
 
   <hr>
 
-  <div id="category" class="page">
+  <!-- 各画面 -->
+  <div id="category">
     <h2>カテゴリ</h2>
     <p>カテゴリ別の商品一覧を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
   </div>
 
-  <div id="brand" class="page" style="display:none;">
+  <div id="brand">
     <h2>ブランド</h2>
     <p>ブランドごとの商品一覧を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
   </div>
 
-  <div id="new" class="page" style="display:none;">
+  <div id="new">
     <h2>新着順</h2>
     <p>新しく追加された商品を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
   </div>
 
-  <div id="popular" class="page" style="display:none;">
+  <div id="popular">
     <h2>人気順</h2>
     <p>人気の高い商品を表示します。</p>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
   </div>
 
-  <script>
-    function doSearch(event) {
-      event.preventDefault(); // ページのリロードを防ぐ
-      const query = document.getElementById('mySearch').value.trim();
-      if (query) {
-        alert(`「${query}」で検索しました。`);
-      } else {
-        alert('検索ワードを入力してください。');
-      }
-    }
-
-    function showPage(id) {
-      const pages = document.querySelectorAll('.page');
-      pages.forEach(p => p.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-    }
-  </script>
+      <nav class="navigation-rail">
+      <div class="nav-item">
+        <img src="img/icon-3.svg" alt="メインページ" />
+        <span>メインページ</span>
+      </div>
+      <div class="nav-item">
+        <img src="img/icon-8.svg" alt="マイページ" />
+        <span>マイページ</span>
+      </div>
+      <div class="nav-item">
+        <img src="img/icon-8.svg" alt="カート" />
+        <span>カート</span>
+      </div>
+      <div class="nav-item">
+        <img src="img/icon-8.svg" alt="出品" />
+        <span>出品</span>
+      </div>
+    </nav>
 
 </body>
 </html>
