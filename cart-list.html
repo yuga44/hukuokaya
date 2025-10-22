@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="cart-list.css"
-    <title>カート一覧</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カート</title>
+  <link rel="stylesheet" href="cart-list.css">
 </head>
 <body>
-    <h1>カート</h1>
-    <button>←</button>
-    <button>×</button>
+  <!-- ナビゲーションバー -->
+  <nav class="navigation-rail">
+    <div class="nav-item">
+      <img src="img/icon-cart.svg" alt="カート">
+      <span>カート</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-home.svg" alt="メインページ">
+      <span>メインページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-user.svg" alt="マイページ">
+      <span>マイページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-upload.svg" alt="出品">
+      <span>出品</span>
+    </div>
+  </nav>
 
+  <!-- タイトル・ボタン -->
+  <button class="back">←</button>
+  <button class="cancel">×</button>
+  <h1>カート</h1>
+  <!--ここまでテンプレ-->
+
+  <div class="content"><!---ここにコンテンツ-->
     <div class="cart-item">
       <img src="" alt="商品画像">
       <div class="cart-info">
@@ -19,5 +42,6 @@
         <button>購入</button>
       </div>
     </div>
+  </div>
 </body>
 </html>
