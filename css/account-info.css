@@ -1,6 +1,7 @@
 /* 全体設定 */
 body {
   margin: 0;
+  height: 100vh;
   font-family: "Noto Sans JP", sans-serif;
   color: #555;
 }
