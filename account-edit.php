@@ -33,7 +33,6 @@
                 <input type="text" id="meikana" name="meikana" required>
             </div>
         </div>
-
         <div class="form-group">
             <label for="email">メールアドレスまたは電話番号</label>
             <input type="text" id="email" name="email" required>
