@@ -4,84 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>アカウント編集</title>
-<style>
-body {
-    background-color: #f8f4f9;
-    font-family: "Noto Sans JP", sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    background-color: #fff;
-    width: 440px;
-    margin: 60px auto;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 22px;
-    color: #333;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.row {
-    display: flex;
-    gap: 12px; /* ボックスの間隔を少し広めに */
-}
-
-.row .form-group {
-    flex: 1;
-    min-width: 0; /* flexのオーバーフロー防止 */
-}
-
-button {
-    display: block;
-    width: 100%;
-    background-color: #555;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.2s;
-}
-
-button:hover {
-    background-color: #333;
-}
-</style>
+<link rel="stylesheet" href="edit.css">
 </head>
 <body>
 
 <div class="container">
-    <h2>アカウント登録</h2>
+    <h2>アカウント編集</h2>
 
     <form action="#" method="post">
         <div class="row">
@@ -105,7 +33,6 @@ button:hover {
                 <input type="text" id="meikana" name="meikana" required>
             </div>
         </div>
-
         <div class="form-group">
             <label for="email">メールアドレスまたは電話番号</label>
             <input type="text" id="email" name="email" required>
