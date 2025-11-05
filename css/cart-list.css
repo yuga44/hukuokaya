@@ -4,56 +4,7 @@ body {
   font-family: "Noto Sans JP", sans-serif;
   color: #555;
 }
-
-/* メイン部分 */
-.main {
-  flex: 1;
-  padding: 40px;
-}
-
-/* ヘッダー部分 */
-.main-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.back {
-  text-align: left;
-  position: absolute;
-  top: 40px;
-  left: 120px;
-  font-size: 22px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #777;
-}
-
-.cancel {
-  text-align: right;
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  font-size: 22px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #777;
-}
-
-.back:hover,
-.cancel:hover {
-  background-color: #d8d8d8;
-}
-
-/* ヘッダーのタイトル */
-.main-header h1 {
-  font-size: 24px;
-  color: #333;
-}
-
-/*-------------------------------------ここから共通テンプレート---------------------------------------*/
+/* ナビゲーションレール */
 .navigation-rail {
   position: fixed;
   top: 0;
@@ -87,7 +38,29 @@ body {
 .nav-item:hover {
   opacity: 0.7;
 }
-
+/* 戻る・キャンセルボタン */
+.back,
+.cancel {
+  position: absolute;
+  top: 40px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+}
+.back {
+  left: 120px;
+}
+.cancel {
+  right: 40px;
+}
+.back:hover{
+  background-color: #d8d8d8;
+}
+.cancel:hover{
+  background-color: #d8d8d8;
+}
 /* タイトル */
 h1 {
   font-size: 28px;
@@ -100,9 +73,8 @@ h1 {
   margin-left: 100px;
   padding: 5px 5px;
 }
-/*-------------------------------------ここまでテンプレート---------------------------------------*/
+/*-------------------------------------ここまでてんぷれ---------------------------------------*/
 
-/* マイページアイテム */
 .mypage-item {
   display: flex;
   align-items: center;
@@ -117,8 +89,8 @@ h1 {
 }
 
 .mypage-item:hover {
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
-  transform: translateY(-0.1875em);
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.25);
+	transform: translateY(-0.1875em);
 }
 
 /* カート（購入履歴）アイテム全体 */
