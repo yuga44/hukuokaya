@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>検索ページ</title>
 </head>
-<link rel="stylesheet" href="search.css">
-<link rel="stylesheet" href="template.css">
+<link rel="stylesheet" href="css/search.css">
+<link rel="stylesheet" href="css/template.css">
 <body>
 
   
