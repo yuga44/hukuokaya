@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>出品完了</title>
-  <link rel="stylesheet" href="shopping-complete.css">
+  <link rel="stylesheet" href="css/shopping-complete.css">
 </head>
 <body>
 
