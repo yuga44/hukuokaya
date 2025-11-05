@@ -1,5 +1,30 @@
+<<<<<<< Updated upstream
 /* 全体設定 */
 body {
+=======
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.back{
+  text-align: left;
+}
+
+.cancel{
+  text-align: right;
+}
+
+.main-header h1 {
+  font-size: 24px;
+  color: #333;
+>>>>>>> Stashed changes
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
   color: #555;
