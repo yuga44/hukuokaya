@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購入履歴</title>
+  <link rel="stylesheet" href="cart-list.css">
+</head>
+<body>
+  <!-- ナビゲーションバー -->
+  <nav class="navigation-rail">
+    <div class="nav-item">
+      <img src="img/icon-cart.svg" alt="カート">
+      <span>カート</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-home.svg" alt="メインページ">
+      <span>メインページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-user.svg" alt="マイページ">
+      <span>マイページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-upload.svg" alt="出品">
+      <span>出品</span>
+    </div>
+  </nav>
+
+  <!-- タイトル・ボタン -->
+  <button class="back">←</button>
+  <button class="cancel">×</button>
+  <h1>購入履歴
+  </h1>
+  <!--ここまでテンプレ-->
+
+  
+  <div class="content"><!---ここにコンテンツ-->
+    <div class="cart-item">
+      <img src="" alt="商品画像">
+      <div class="cart-info">
+        <h2>服1</h2>
+        <p>
+            購入日<br>
+            お支払額<br>
+            お届け先
+        </p>
+        <button>再び購入</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+</body>
+</html>
