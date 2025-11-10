@@ -14,7 +14,7 @@
       ご購入ありがとうございます
     </div>
     <div class="links">
-      <a href="#">購入履歴を見る</a>
+      <a href="purchase-history.php">購入履歴を見る</a>
       <a href="mainpage.php">メインページへ戻る</a>
     </div>
   </div>
