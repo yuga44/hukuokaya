@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>購入画面</title>
-  <link rel="stylesheet" href="chase.css">
+  <link rel="stylesheet" href="css/chase.css">
 </head>
 <body>
   <div class="main">
@@ -12,7 +12,7 @@
     <a href="mainpage.php" class="back-btn">←</a>
 
     <h1>購入画面</h1>
-    <form action="Login.html" method="post">
+    <form action="purchase-completed.php" method="post">
     <div class="product">
       <img src="#" alt="商品画像">
       <div>
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <button class="confirm-btn">購入を確定する</button>
+    <button type="submit" class="confirm-btn">購入を確定する</button>
     </form>
   </div>
 </body>

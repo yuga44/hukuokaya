@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>購入完了</title>
-  <link rel="stylesheet" href="purchase-completed.css">
+  <link rel="stylesheet" href="css/purchase-completed.css">
 </head>
 <body>
   <div class="main">
