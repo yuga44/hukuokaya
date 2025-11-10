@@ -1,9 +1,13 @@
+<?php
+  $require 'db-connect.php';
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>テンプレートページ</title>
+  <title>出品一覧</title>
   <link rel="stylesheet" href="css/listing-completed.css">
 </head>
 <body>
