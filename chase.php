@@ -9,10 +9,10 @@
 <body>
   <div class="main">
     <!-- ←戻る矢印 -->
-    <a href="#" class="back-btn">←</a>
+    <a href="mainpage.php" class="back-btn">←</a>
 
     <h1>購入画面</h1>
-
+    <form action="Login.html" method="post">
     <div class="product">
       <img src="#" alt="商品画像">
       <div>
@@ -49,6 +49,7 @@
     </div>
 
     <button class="confirm-btn">購入を確定する</button>
+    </form>
   </div>
 </body>
 </html>
