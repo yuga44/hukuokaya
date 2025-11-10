@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  height: 100vh;
   font-family: "Roboto", "Noto Sans JP", sans-serif;
   background-color: #fef7ff;
   color: #1d1b20;

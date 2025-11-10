@@ -1,7 +1,6 @@
 /* 全体設定 */
 body {
   margin: 0;
-  height: 100vh;
   font-family: "Noto Sans JP", sans-serif;
   color: #555;
 }
@@ -76,27 +75,49 @@ h1 {
 }
 /*-------------------------------------ここまでてんぷれ---------------------------------------*/
 
-.accountinfo-item {
+/* 出品一覧タイトル部分 */
+.page-title {
+  text-align: center;
+  font-size: 2em;
+  margin-top: 40px;
+}
+
+.count, .section-title {
+  margin-left: 150px;
+  font-size: 1.2em;
+}
+
+/* 商品カードリスト */
+.item-list {
   display: flex;
-  align-items: center;
-  background-color: #ebebeb;
+  overflow-x: auto;
+  padding: 20px 150px;
+  gap: 20px;
+}
+
+/* 商品カード */
+.item-card {
+  width: 150px;
+  height: 180px;
   border-radius: 12px;
-  border: 1px solid #d8d8d8;
-  padding: 20px;
-  margin-top: 7px;
-  width: 90%;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  transition: transform 0.2s ease;
 }
 
-.account-info-button{
-    color: #ffffff;
-    background-color: #4f4f4f;
-    margin-top: 15px;
-    padding:10px;
-    border-radius: 5px;
+.item-card:hover {
+  transform: scale(1.05);
 }
 
-.account-info-button:hover {
-	background-color: #5b5b5b;
+/* 商品画像 */
+.item-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: 8px;
 }

@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出品</title>
     <link rel="stylesheet" href="css/template.css">
-    <link rel="stylesheet" href="template.css">
-
     <link rel="stylesheet" href="css/listing.css">
 </head>
 <body>
