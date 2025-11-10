@@ -36,22 +36,28 @@
         </div>
 
         <div class="content">
-            <div class="uploder">
-                <div class="placeholder">画面を追加</div>
-            </div>
 
-            <form>
-                <input class="input" type="text" placeholder="商品名を入力">
-                <select>
-                    <option>カテゴリーを選択</option>
-                    <option>ジャケット</option>
-                    <option>パンツ</option>
-                    <option>ビジネスバッグ</option>
-                    <option>セットアップ</option>
-                    <option>ビジネスカジュアル</option>
+            <?php
+              $categories = ["ジャケット", "パンツ", "ビジネスバッグ", "シャツ", "ビジネスカジュアル", "アクセサリー"];
+            ?>
+
+            <form action="shopping-complete.php" method="post" enctype="multipart/form-data">
+                <div class="uploder">
+                  <div class="placeholder">画像を追加
+                    <input type="file" name="image_file">
+                  </div>
+                </div>
+                <input class="input" type="text" name="product_name" placeholder="商品名を入力">
+                <select name="category">
+                    <option value="">カテゴリーを選択</option>
+                    <?php foreach ($categories as $category): ?>
+                      <option value="<?= htmlspecialchars($category) ?>">
+                      <?= htmlspecialchars($category) ?>
+                      </option>
+                    <?php endforeach; ?>
                 </select>
-                <input class="input" type="number" placeholder="￥ 値段を入力">
-                <textarea placeholder="商品の説明"></textarea>
+                <input class="input" type="number" name="price" placeholder="￥ 値段を入力">
+                <textarea name="description" placeholder="商品の説明"></textarea>
                 <button type="submit" class="submit">出品する</button>
             </form>
         </div>
