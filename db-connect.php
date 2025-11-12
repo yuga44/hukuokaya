@@ -6,6 +6,8 @@ const PASS = 'seniority';
 
 $connect = 'mysql:host=' . SERVER . ';dbname=' . DBNAME . ';charset=utf8mb4';
 
+$pdo = new PDO($connect, USER, PASS);
+
 try {
     // PDOで接続を作成
     $pdo = new PDO($connect, USER, PASS);
