@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>商品出品</title>
-  <link rel="stylesheet" href="css/listing.css">
+  <link rel="stylesheet" href="css/shopping-complete.css">
 </head>
 <body>
 
