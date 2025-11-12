@@ -1,5 +1,12 @@
 <?php
 require 'db-connect.php';
+session_start();
+ 
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていなければリダイレクト
+    header('Location: Login.php?error=not_logged_in');
+    exit;
+}
 
 try {
     $pdo = new PDO($connect, USER, PASS);
@@ -99,7 +106,7 @@ try {
       </p>
 
       <div class="item-info">
-        <img src="img/no-image.svg" alt="商品画像">
+<img src="<?= htmlspecialchars($image_path) ?>" alt="商品画像">
         <div class="item-text">
           <p><?= htmlspecialchars($name) ?></p>
           <p>¥<?= number_format($price) ?></p>
