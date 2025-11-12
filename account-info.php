@@ -30,30 +30,38 @@
   <!-- タイトル・ボタン -->
   <button class="back">←</button>
   <button class="cancel">×</button>
-  <h1>ページタイトル</h1>
-  <!--ここまでテンプレ-->
+  <h1>アカウント情報</h1>
+<!-- ここまでテンプレ -->
 
-  <div class="content"><!---ここにコンテンツ-->
+  <!-- メインコンテンツ -->
+  <div class="content">
     <div class="accountinfo-item">
       <div>名前</div>
+      <div><?= htmlspecialchars($user['name']) ?></div>
     </div>
 
     <div class="accountinfo-item">
       <div>メールアドレス</div>
+      <div><?= htmlspecialchars($user['mailaddress']) ?></div>
     </div>
 
     <div class="accountinfo-item">
       <div>電話番号</div>
+      <div><?= htmlspecialchars($user['tel']) ?></div>
     </div>
 
     <div class="accountinfo-item">
       <div>パスワード</div>
+      <div><?= htmlspecialchars($user['password']) ?></div>
+
     </div>
 
     <div class="accountinfo-item">
       <div>住所</div>
+      <div><?= htmlspecialchars($user['address']) ?></div>
     </div>
-        <button class="account-info-button">アカウント設定</button>
-    </div>
+
+    <button class="account-info-button">アカウント設定</button>
+  </div>
 </body>
 </html>
