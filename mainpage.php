@@ -22,25 +22,25 @@
     <!-- ナビゲーションバー -->
     <nav class="navigation-rail">
       <div class="nav-item">
-        <a href="mainpage.html">
+        <a href="mainpage.php">
           <img src="img/click_scam.jpg" alt="メインページ" />
         </a>
         <span>メインページ</span>
       </div>
       <div class="nav-item">
-        <a href="account-entry.html">
+        <a href="account-entry.php">
           <img src="img/click_scam.jpg" alt="マイページ" />
         </a>
         <span>マイページ</span>
       </div>
       <div class="nav-item">
-        <a href="cart-list.html">
+        <a href="cart-list.php">
           <img src="img/click_scam.jpg" alt="カート" />
         </a>
         <span>カート</span>
       </div>
       <div class="nav-item">
-        <a href="listing.html">
+        <a href="listing.php">
           <img src="img/click_scam.jpg" alt="出品" />
         </a>
         <span>出品</span>
