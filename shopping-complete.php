@@ -1,5 +1,5 @@
 <?php
-require_once 'db-connect.php';
+require 'db-connect.php';
 
 try {
     $pdo = new PDO($connect, USER, PASS);
