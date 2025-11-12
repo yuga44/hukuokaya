@@ -1,5 +1,14 @@
 <?php
-  require 'db-connect.php';
+require 'db-connect.php';
+session_start();
+
+// ログイン確認
+if (!isset($_SESSION['member'])) {
+  exit('ログインしてください。');
+}
+
+// ログイン中のユーザーIDを取得
+$member_id = $_SESSION['member']['member_id']; // ←ここ修正！（['password']ではない）
 ?>
 
 <!DOCTYPE html>
@@ -35,35 +44,31 @@
   <button class="back">←</button>
   <button class="cancel">×</button>
   <h1>ページタイトル</h1>
-  <!--ここまでテンプレ-->
 
-  <div class="content"><!---ここにコンテンツ-->
+  <div class="content">
     <h1 class="page-title">出品一覧</h1>
-<p class="count">？件</p>
-<h2 class="section-title">Section title</h2>
+    <p class="count">？件</p>
+    <h2 class="section-title">出品リスト</h2>
 
-<div class="item-list">
-  <div class="item-card">
-    <img src="img/sample1.png" alt="商品画像">
-    <p>ベルト<br>¥2000</p>
-  </div>
-  <div class="item-card">
-    <img src="img/sample2.png" alt="商品画像">
-    <p>靴下<br>¥500</p>
-  </div>
-  <div class="item-card">
-    <img src="img/sample3.png" alt="商品画像">
-    <p>Artist<br>Song</p>
-  </div>
-  <div class="item-card">
-    <img src="img/sample3.png" alt="商品画像">
-    <p>Artist<br>Song</p>
-  </div>
-  <div class="item-card">
-    <img src="img/sample3.png" alt="商品画像">
-    <p>Artist<br>Song</p>
-  </div>
-</div>
+<?php
+  // listing_productから出品情報を取得
+  $sql = $pdo->prepare('SELECT * FROM listing_product WHERE member_id = ? AND flag = 0');
+  $sql->execute([$member_id]);
+  $listings = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+  if (count($listings) === 0) {
+      echo '<p>出品中の商品はありません。</p>';
+  } else {
+      echo '<div class="item-list">';
+      foreach ($listings as $row) {
+          echo '<div class="item-card">';
+          echo '<img src="' . htmlspecialchars($row['image']) . '" alt="商品画像">';
+          echo '<p>' . htmlspecialchars($row['product_name']) . '<br>￥' . htmlspecialchars($row['price']) . '</p>';
+          echo '</div>';
+      }
+      echo '</div>';
+  }
+?>
   </div>
 </body>
 </html>
