@@ -2,40 +2,35 @@
 require 'db-connect.php';
 session_start();
  
-if (!isset($_SESSION['member_id'])) {
-    // ログインしていなければリダイレクト
+if (!isset($_SESSION['member'])) {
     header('Location: Login.php?error=not_logged_in');
     exit;
 }
 
 try {
-    $pdo = new PDO($connect, USER, PASS);
+    // DB接続
+    $pdo = new PDO('mysql:host='.SERVER.';dbname='.DBNAME.';charset=utf8', USER, PASS);
 
     $product_name = $_POST['product_name'] ?? '';
     $category = $_POST['category'] ?? '';
     $price = $_POST['price'] ?? 0;
     $description = $_POST['description'] ?? '';
-    $member_id = 1; // 仮にログイン中の会員ID
+    $member_id = $_SESSION['member']['member_id']; // ログイン中のユーザーID
 
     // ==== 画像アップロード処理 ====
     $image_path = null;
     if (!empty($_FILES['image_file']['name'])) {
+        $upload_dir = __DIR__ . '/uploads/';
+        $web_path = 'uploads/';
 
-        // ① アップロード先のパス（ロリポップ上の公開ディレクトリ内）
-        $upload_dir = __DIR__ . '/uploads/'; // 物理パス
-        $web_path = 'uploads/';               // DBに保存する相対パス
-
-        // ② フォルダがない場合は作成
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
 
-        // ③ ファイル名をユニークにして保存
         $filename = uniqid() . '_' . basename($_FILES['image_file']['name']);
         $target_path = $upload_dir . $filename;
-        $image_path = $web_path . $filename; // ←DBにはこのパスを保存
+        $image_path = $web_path . $filename;
 
-        // ④ アップロード実行
         if (!move_uploaded_file($_FILES['image_file']['tmp_name'], $target_path)) {
             throw new Exception('画像のアップロードに失敗しました。');
         }
@@ -54,11 +49,8 @@ try {
     $stmt->bindValue(':detail', $description, PDO::PARAM_STR);
     $stmt->execute();
 
-    echo "出品が完了しました！<br>";
-    echo "<a href='listing.php'>出品ページに戻る</a>";
-
 } catch (Exception $e) {
-    echo "エラー：" . $e->getMessage();
+    exit("エラー：" . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -70,45 +62,29 @@ try {
 </head>
 <body>
 
-  <!-- ナビゲーション -->
   <nav class="navigation-rail">
-    <div class="nav-item">
-      <img src="img/icon-upload.svg" alt="出品">
-      <span>出品</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-home.svg" alt="メインページ">
-      <span>メインページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-user.svg" alt="マイページ">
-      <span>マイページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-cart.svg" alt="カート">
-      <span>カート</span>
-    </div>
+    <div class="nav-item"><img src="img/icon-upload.svg" alt="出品"><span>出品</span></div>
+    <div class="nav-item"><img src="img/icon-home.svg" alt="メインページ"><span>メインページ</span></div>
+    <div class="nav-item"><img src="img/icon-user.svg" alt="マイページ"><span>マイページ</span></div>
+    <div class="nav-item"><img src="img/icon-cart.svg" alt="カート"><span>カート</span></div>
   </nav>
 
-  <!-- メインコンテンツ -->
   <main class="content">
     <header class="app-bar">
       <div class="back">←</div>
       <h1 class="headline">出品完了</h1>
-      <div></div>
     </header>
 
     <section class="complete-box">
       <h2>出品が完了しました！</h2>
       <p class="description">
-        商品が公開されました<br>
-        購入されるのをお待ちください
+        商品が公開されました<br>購入されるのをお待ちください
       </p>
 
       <div class="item-info">
-<img src="<?= htmlspecialchars($image_path) ?>" alt="商品画像">
+        <img src="<?= htmlspecialchars($image_path ?? 'img/no-image.svg') ?>" alt="商品画像" style="width:200px;">
         <div class="item-text">
-          <p><?= htmlspecialchars($name) ?></p>
+          <p><?= htmlspecialchars($product_name) ?></p>
           <p>¥<?= number_format($price) ?></p>
         </div>
       </div>
@@ -119,6 +95,5 @@ try {
       </div>
     </section>
   </main>
-
 </body>
 </html>
