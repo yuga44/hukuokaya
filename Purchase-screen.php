@@ -24,9 +24,9 @@ $user_phone = "090-1234-5678";
   <div class="main">
     <!-- ←戻る矢印 -->
     <a href="javascript:history.back();" class="back-btn">←</a>
- 
+
     <h1>購入画面</h1>
- 
+
     <div class="product">
       <img src="images/denim_jacket.jpg" alt="商品画像">
       <div>
@@ -34,25 +34,25 @@ $user_phone = "090-1234-5678";
         <p>価格：￥<?php echo number_format($product_price); ?></p>
       </div>
     </div>
- 
+
     <div class="section">
       <h2>支払い方法</h2>
       <div class="info-box">
         <?php echo htmlspecialchars($payment_method); ?>
-        <button class="change-btn">変更する</button>
+        <button class="change-btn" type="button">変更する</button>
       </div>
     </div>
- 
+
     <div class="section">
       <h2>配送先</h2>
       <div class="info-box">
         <?php echo htmlspecialchars($user_name); ?><br>
         <?php echo htmlspecialchars($user_address); ?><br>
         <?php echo htmlspecialchars($user_phone); ?>
-        <button class="change-btn">変更する</button>
+        <button class="change-btn" type="button">変更する</button>
       </div>
     </div>
- 
+
     <div class="section">
       <h2>注文金額</h2>
       <div class="info-box">
@@ -61,8 +61,20 @@ $user_phone = "090-1234-5678";
         <p class="total">合計金額：￥<?php echo number_format($total); ?></p>
       </div>
     </div>
- 
-    <button class="confirm-btn">購入を確定する</button>
+
+    <!-- ✅ 購入確定ボタン -->
+    <form action="purchase-completed.php" method="post">
+      <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product_name); ?>">
+      <input type="hidden" name="product_price" value="<?php echo $product_price; ?>">
+      <input type="hidden" name="shipping_fee" value="<?php echo $shipping_fee; ?>">
+      <input type="hidden" name="total" value="<?php echo $total; ?>">
+      <input type="hidden" name="payment_method" value="<?php echo htmlspecialchars($payment_method); ?>">
+      <input type="hidden" name="user_name" value="<?php echo htmlspecialchars($user_name); ?>">
+      <input type="hidden" name="user_address" value="<?php echo htmlspecialchars($user_address); ?>">
+      <input type="hidden" name="user_phone" value="<?php echo htmlspecialchars($user_phone); ?>">
+
+      <button class="confirm-btn" type="submit">購入を確定する</button>
+    </form>
   </div>
 </body>
 </html>
