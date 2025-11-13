@@ -28,7 +28,7 @@
         <span>メインページ</span>
       </div>
       <div class="nav-item">
-        <a href="account-entry.php">
+        <a href="mypage.php">
           <img src="img/click_scam.jpg" alt="マイページ" />
         </a>
         <span>マイページ</span>
