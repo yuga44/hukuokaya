@@ -28,7 +28,7 @@
   </nav>
 
   <!-- タイトル・ボタン -->
-  <button class="back">←</button>
+  <a href="mainpage.php" class="back">←</a>
   <button class="cancel">×</button>
   <h1>マイページ</h1>
 
