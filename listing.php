@@ -40,7 +40,7 @@ if (!isset($_SESSION['member_id'])) {
     <section class="main">
         <!-- バナー -->
         <div class="topbar">
-        <button class="back-btn">←</button>
+        <a href="mainpage.php"><button class="back-btn">←</button></a>
         <h1 class="title">出品</h1>
         </div>
 
