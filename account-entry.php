@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>アカウント編集</title>
-<link rel="stylesheet" href="css/edit.css">
+<title>アカウント登録</title>
+<link rel="stylesheet" href="css/entry.css">
 </head>
 <body>
 
 <div class="container">
-    <h2>アカウント編集</h2>
+    <h2>アカウント登録</h2>
 
-    <form action="acount-info.php" method="post">
+    <form action="Login.html" method="post">
         <div class="row">
             <div class="form-group">
                 <label for="sei">姓</label>
@@ -33,6 +33,7 @@
                 <input type="text" id="meikana" name="meikana" required>
             </div>
         </div>
+
         <div class="form-group">
             <label for="email">メールアドレスまたは電話番号</label>
             <input type="text" id="email" name="email" required>
@@ -58,8 +59,9 @@
             <input type="text" id="address" name="address">
         </div>
 
-        <button type="submit">変更を保存</button>
+        <button type="submit">新規作成</button>
     </form>
 </div>
+
 </body>
 </html>
