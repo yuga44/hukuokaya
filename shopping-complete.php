@@ -1,40 +1,54 @@
 <?php
-require_once 'db-connect.php';
+require 'db-connect.php';
+session_start();
+
+// ===== ログイン確認 =====
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていなければリダイレクト
+    header('Location: Login.php?error=not_logged_in');
+    exit;
+}
 
 try {
-    $pdo = new PDO($connect, USER, PASS);
+    // ===== DB接続 =====
+    $pdo = new PDO(
+        'mysql:host=' . SERVER . ';dbname=' . DBNAME . ';charset=utf8mb4',
+        USER,
+        PASS,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
 
+    // ===== POSTデータ取得 =====
     $product_name = $_POST['product_name'] ?? '';
     $category = $_POST['category'] ?? '';
     $price = $_POST['price'] ?? 0;
     $description = $_POST['description'] ?? '';
-    $member_id = 1; // 仮にログイン中の会員ID
+    $member_id = $_SESSION['member_id']; // ← ログイン中の会員IDを使用
 
-    // ==== 画像アップロード処理 ====
+    // ===== 画像アップロード処理 =====
     $image_path = null;
     if (!empty($_FILES['image_file']['name'])) {
-
-        // ① アップロード先のパス（ロリポップ上の公開ディレクトリ内）
-        $upload_dir = __DIR__ . '/uploads/'; // 物理パス
+        // アップロード先のパス（ロリポップ上の公開ディレクトリ内）
+        $upload_dir = __DIR__ . '/uploads/'; // サーバー上の保存フォルダ
         $web_path = 'uploads/';               // DBに保存する相対パス
 
-        // ② フォルダがない場合は作成
+        // フォルダがなければ作成
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
 
-        // ③ ファイル名をユニークにして保存
+        // ファイル名をユニークにして保存
         $filename = uniqid() . '_' . basename($_FILES['image_file']['name']);
         $target_path = $upload_dir . $filename;
-        $image_path = $web_path . $filename; // ←DBにはこのパスを保存
+        $image_path = $web_path . $filename; // ← DBに保存する用のパス
 
-        // ④ アップロード実行
+        // アップロード実行
         if (!move_uploaded_file($_FILES['image_file']['tmp_name'], $target_path)) {
             throw new Exception('画像のアップロードに失敗しました。');
         }
     }
 
-    // ==== DB登録 ====
+    // ===== DB登録 =====
     $sql = "INSERT INTO listing_product (member_id, product_name, price, category, image, product_detail, date)
             VALUES (:member_id, :product_name, :price, :category, :image, :detail, NOW())";
 
@@ -47,13 +61,11 @@ try {
     $stmt->bindValue(':detail', $description, PDO::PARAM_STR);
     $stmt->execute();
 
-    echo "出品が完了しました！<br>";
-    echo "<a href='listing.php'>出品ページに戻る</a>";
-
 } catch (Exception $e) {
-    echo "エラー：" . $e->getMessage();
+    exit('エラー：' . $e->getMessage());
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -99,9 +111,9 @@ try {
       </p>
 
       <div class="item-info">
-        <img src="img/no-image.svg" alt="商品画像">
+        <img src="<?= htmlspecialchars($image_path ?? 'img/no-image.svg') ?>" alt="商品画像">
         <div class="item-text">
-          <p><?= htmlspecialchars($name) ?></p>
+          <p><?= htmlspecialchars($product_name) ?></p>
           <p>¥<?= number_format($price) ?></p>
         </div>
       </div>
