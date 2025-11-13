@@ -37,16 +37,24 @@
       <div>ポイント残高</div>
     </div>
     <div class="mypage-item">
-      <div>注文履歴</div>
+      <div>注文履歴
+      <a href="listing.php"></a>
+      </div>
     </div>
     <div class="mypage-item">
-      <div>お気に入り</div>
+      <div>お気に入り
+      <a href="favorite.php"></a>
+      </div>
     </div>
     <div class="mypage-item">
-      <div>アカウント情報</div>
+      <div>アカウント情報
+        <a href="accout-info.php"></a>
+      </div>
     </div>
     <div class="mypage-item">
-      <div>出品</div>
+      <div>出品
+        <a href="listing.php"></a>
+      </div>
     </div>
   </div>
 </body>
