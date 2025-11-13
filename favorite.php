@@ -20,7 +20,7 @@ $favorites = [
 <body>
   <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
-    <a href="main.php" class="nav-item">
+    <a href="mainpage.php" class="nav-item">
       <img src="img/icon-3.svg" alt="メインページ">
       <span>メインページ</span>
     </a>
@@ -28,11 +28,11 @@ $favorites = [
       <img src="img/icon-8.svg" alt="マイページ">
       <span>マイページ</span>
     </a>
-    <a href="cart.php" class="nav-item">
+    <a href="cart-list.php" class="nav-item">
       <img src="img/icon-8.svg" alt="カート">
       <span>カート</span>
     </a>
-    <a href="sell.php" class="nav-item">
+    <a href="listng.php" class="nav-item">
       <img src="img/icon-8.svg" alt="出品">
       <span>出品</span>
     </a>
