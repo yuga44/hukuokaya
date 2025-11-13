@@ -12,10 +12,12 @@
     <header class="app-bar">
       <div class="headline">ふくおかやめいんぺーじ</div>
       <div class="trailing-icons">
-        <a href="kensaku.html">
+        <a href="kensaku.php">
           <img src="img/click_scam.jpg" alt="検索" />検索
         </a>
-        <img src="img/icon-7.svg" alt="設定" />
+        <a href="login.php">
+          <img src="img/icon-7.svg" alt="ログイン" />ログイン
+        </a>
       </div>
     </header>
 
