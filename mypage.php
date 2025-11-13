@@ -35,7 +35,7 @@
 
   <div class="content"><!---ここにコンテンツ-------->
     <div class="mypage-item">
-      <a href="listing.php">注文履歴</a>
+      <a href="purchase-history.php">購入履歴</a>
     </div>
     <div class="mypage-item">
       <a href="favorite.php">お気に入り</a>

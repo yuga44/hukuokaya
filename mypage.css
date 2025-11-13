@@ -88,6 +88,8 @@ h1 {
   width: 90%;
   cursor: pointer;
   transition: all 0.3s ease 0s;
+  text-decoration: none;
+  color:#444;
 }
 
 .mypage-item:hover {
