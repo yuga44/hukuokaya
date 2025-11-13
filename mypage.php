@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マイページ</title>
+  <link rel="stylesheet" href="mypage.css">
 </head>
 <body>
-    <link rel="stylesheet" href="css/cart-list.css">
   <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
     <div class="nav-item">
@@ -23,21 +26,27 @@
       <span>出品</span>
     </div>
   </nav>
-
   <!-- タイトル・ボタン -->
   <button class="back">←</button>
   <button class="cancel">×</button>
-  <h1>カート</h1>
-  <!--ここまでテンプレ-->
+  <h1>マイページ</h1>
+  <!--------------------ここまでテンプレ------------------------>
 
-  <div class="content"><!---ここにコンテンツ-->
-    <div class="cart-item">
-      <img src="" alt="商品画像">
-      <div class="cart-info">
-        <h2>服1</h2>
-        <p>出品情報</p>
-        <button>購入</button>
-      </div>
+  <div class="content"><!---ここにコンテンツ-------->
+    <div class="mypage-item">
+      <div>ポイント残高</div>
+    </div>
+    <div class="mypage-item">
+      <div>注文履歴</div>
+    </div>
+    <div class="mypage-item">
+      <div>お気に入り</div>
+    </div>
+    <div class="mypage-item">
+      <div>アカウント情報</div>
+    </div>
+    <div class="mypage-item">
+      <div>出品</div>
     </div>
   </div>
 </body>

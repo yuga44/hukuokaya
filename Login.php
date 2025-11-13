@@ -2,7 +2,6 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ログイン</title>
   <link rel="stylesheet" href="css/Login-style.css">
 </head>
@@ -13,11 +12,30 @@
       <h1>ログイン</h1>
       <span class="close">×</span>
     </header>
-    <form>
-      <input type="text" placeholder="ログインID" required>
-      <input type="password" placeholder="パスワード" required>
 
-      <button type="button" class="sub-btn">アカウントをお持ちでない方</button>
+    <!-- ログインフォーム -->
+    <form action="login-check.php" method="post">
+      <input type="text" name="login_id" placeholder="ログインID" required>
+      <input type="password" name="password" placeholder="パスワード" required>
+
+      <!-- エラーメッセージ表示エリア -->
+      <?php if (isset($_GET['error'])): ?>
+        <p class="error-message">
+          <?php
+            if ($_GET['error'] === 'empty') {
+              echo 'ログインIDとパスワードを入力してください。';
+            } elseif ($_GET['error'] === 'invalid') {
+              echo 'ログインIDまたはパスワードが間違っています。';
+            } elseif ($_GET['error'] === 'db') {
+              echo 'データベース接続エラーが発生しました。';
+            }
+          ?>
+        </p>
+      <?php endif; ?>
+
+      <button type="button" class="sub-btn" onclick="location.href='register.php'">
+        アカウントをお持ちでない方
+      </button>
       <button type="submit" class="login-btn">ログイン</button>
     </form>
   </div>
