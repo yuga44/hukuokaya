@@ -15,8 +15,8 @@
         <a href="kensaku.php">
           <img src="img/click_scam.jpg" alt="検索" />検索
         </a>
-        <a href="login.php">
-          <img src="img/icon-7.svg" alt="ログイン" />ログイン
+        <a href="Login.php">
+          <img src="img/icon-7.svg" alt="ログイン" />
         </a>
       </div>
     </header>
