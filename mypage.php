@@ -31,9 +31,10 @@
   <button class="back">←</button>
   <button class="cancel">×</button>
   <h1>マイページ</h1>
+
   <!--------------------ここまでテンプレ------------------------>
 
-  <div class="content"><!---ここにコンテンツ-------->
+  <div class="content">
     <div class="mypage-item">
       <a href="purchase-history.php">購入履歴</a>
     </div>
@@ -45,6 +46,9 @@
     </div>
     <div class="mypage-item">
       <a href="listing.php">出品</a>
+    </div>
+    <div class="mypage-item">
+      <a href="listing-completed.php">出品履歴</a>
     </div>
   </div>
 </body>
