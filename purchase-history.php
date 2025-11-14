@@ -1,4 +1,14 @@
 <?php
+session_start();
+ 
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていなければリダイレクト
+    header('Location: Login.php?error=not_logged_in');
+    exit;
+}
+?>
+
+<?php
     // --- DB接続 ---
     $dsn = 'mysql:host=localhost;dbname=;charset=utf8';
     $user = '';

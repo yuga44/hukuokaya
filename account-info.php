@@ -1,3 +1,13 @@
+<?php
+session_start();
+ 
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていなければリダイレクト
+    header('Location: Login.php?error=not_logged_in');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
