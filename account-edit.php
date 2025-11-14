@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>アカウント編集</title>
-<link rel="stylesheet" href="edit.css">
+<link rel="stylesheet" href="css/edit.css">
 </head>
 <body>
 
 <div class="container">
     <h2>アカウント編集</h2>
 
-    <form action="#" method="post">
+    <form action="acount-info.php" method="post">
         <div class="row">
             <div class="form-group">
                 <label for="sei">姓</label>
@@ -61,6 +61,5 @@
         <button type="submit">変更を保存</button>
     </form>
 </div>
-
 </body>
 </html>

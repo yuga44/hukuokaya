@@ -1,85 +1,94 @@
+<?php
+// 仮の商品データ（DBは使わない）
+$items = [
+  ['name' => '赤い帽子', 'category' => 'category'],
+  ['name' => '青い帽子', 'category' => 'category'],
+  ['name' => 'GUシャツ', 'category' => 'brand'],
+  ['name' => 'ナイキスニーカー', 'category' => 'popular'],
+  ['name' => '新作バッグ', 'category' => 'new'],
+];
+
+// パラメータ取得
+$keyword = isset($_GET['q']) ? $_GET['q'] : '';
+$category = isset($_GET['category']) ? $_GET['category'] : 'category';
+
+// フィルタリング処理（部分一致 + カテゴリ一致）
+$results = array_filter($items, function($item) use ($keyword, $category) {
+  $matchCategory = ($item['category'] === $category);
+  $matchKeyword = ($keyword === '' || mb_strpos($item['name'], $keyword) !== false);
+  return $matchCategory && $matchKeyword;
+});
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>検索ページ</title>
+  <link rel="stylesheet" href="css/search.css">
+  <link rel="stylesheet" href="css/template.css">
 </head>
-<link rel="stylesheet" href="search.css">
-<link rel="stylesheet" href="template.css">
 <body>
 
-  
-      <nav class="navigation-rail">
-      <div class="nav-item">
-        <img src="img/icon-3.svg" alt="メインページ" />
-        <span>メインページ</span>
-      </div>
-      <div class="nav-item">
-        <img src="img/icon-8.svg" alt="マイページ" />
-        <span>マイページ</span>
-      </div>
-      <div class="nav-item">
-        <img src="img/icon-8.svg" alt="カート" />
-        <span>カート</span>
-      </div>
-      <div class="nav-item">
-        <img src="img/icon-8.svg" alt="出品" />
-        <span>出品</span>
-      </div>
-    </nav>
+  <nav class="navigation-rail">
+    <div class="nav-item">
+      <img src="img/icon-3.svg" alt="メインページ" />
+      <span>メインページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-8.svg" alt="マイページ" />
+      <span>マイページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-8.svg" alt="カート" />
+      <span>カート</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-8.svg" alt="出品" />
+      <span>出品</span>
+    </div>
+  </nav>
 
   <h1>検索ページ</h1>
 
   <!-- 検索フォーム -->
-  <form>
+  <form method="GET" action="">
     <div>
-      <input type="search" name="q" placeholder="キーワードを入力...">
-      <button>検索</button>
+      <input type="search" name="q" placeholder="キーワードを入力..." value="<?= htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8') ?>">
+      <input type="hidden" name="category" value="<?= htmlspecialchars($category, ENT_QUOTES, 'UTF-8') ?>">
+      <button type="submit">検索</button>
     </div>
   </form>
 
   <hr>
 
-<!-- メニュー -->
-<div class="menu-buttons">
-  <button>カテゴリ</button>
-  <button>ブランド</button>
-  <button>新着順</button>
-  <button>人気順</button>
-</div>
-
+  <!-- メニュー -->
+  <div class="menu-buttons">
+    <form method="GET" action="">
+      <input type="hidden" name="q" value="<?= htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8') ?>">
+      <button name="category" value="category">カテゴリ</button>
+      <button name="category" value="brand">ブランド</button>
+      <button name="category" value="new">新着順</button>
+      <button name="category" value="popular">人気順</button>
+    </form>
+  </div>
 
   <hr>
 
-  <!-- 各画面 -->
-  <div id="category">
-    <h2>カテゴリ</h2>
-    <p>カテゴリ別の商品一覧を表示します。</p>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-  </div>
+  <!-- 結果表示 -->
+  <div id="<?= htmlspecialchars($category, ENT_QUOTES, 'UTF-8') ?>">
+    <h2><?= htmlspecialchars($category, ENT_QUOTES, 'UTF-8') ?></h2>
 
-  <div id="brand">
-    <h2>ブランド</h2>
-    <p>ブランドごとの商品一覧を表示します。</p>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
+    <?php if (empty($results)): ?>
+      <p>該当する商品が見つかりませんでした。</p>
+    <?php else: ?>
+      <?php foreach ($results as $item): ?>
+        <div class="item-card">
+          <img src="img/icon-10.svg" alt="">
+          <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
   </div>
-
-  <div id="new">
-    <h2>新着順</h2>
-    <p>新しく追加された商品を表示します。</p>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-  </div>
-
-  <div id="popular">
-    <h2>人気順</h2>
-    <p>人気の高い商品を表示します。</p>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-          <div class="item-card"><img src="img/icon-10.svg" alt="" />Label</div>
-  </div>
-
 
 </body>
 </html>

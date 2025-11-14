@@ -30,30 +30,61 @@
   <!-- タイトル・ボタン -->
   <button class="back">←</button>
   <button class="cancel">×</button>
-  <h1>ページタイトル</h1>
+  <h1>アカウント情報</h1>
   <!--ここまでテンプレ-->
 
-  <div class="content"><!---ここにコンテンツ-->
-    <div class="accountinfo-item">
-      <div>名前</div>
-    </div>
+<div class="content"><!---ここにコンテンツ-->
+  <div class="accountinfo-item">
+    <div>名前</div>
+    <div><?= htmlspecialchars($user['name']) ?></div>
+  </div>
 
-    <div class="accountinfo-item">
-      <div>メールアドレス</div>
-    </div>
+  <div class="accountinfo-item">
+    <div>メールアドレス</div>
+    <div><?= htmlspecialchars($user['mailaddress']) ?></div>
+  </div>
 
-    <div class="accountinfo-item">
-      <div>電話番号</div>
-    </div>
+  <div class="accountinfo-item">
+    <div>電話番号</div>
+    <div><?= htmlspecialchars($user['tel']) ?></div>
+  </div>
 
-    <div class="accountinfo-item">
-      <div>パスワード</div>
+  <div class="accountinfo-item">
+    <div>パスワード</div>
+    <div>
+      <span id="password-mask">********</span>
+      <span id="password-real" style="display:none;">
+        <?= htmlspecialchars($user['password']) ?>
+      </span>
+      <button id="show-pass" type="button" style="border:none;background:none;cursor:pointer;">👁</button>
     </div>
+  </div>
 
-    <div class="accountinfo-item">
-      <div>住所</div>
-    </div>
-        <button class="account-info-button">アカウント設定</button>
-    </div>
-</body>
-</html>
+  <div class="accountinfo-item">
+    <div>住所</div>
+    <div><?= htmlspecialchars($user['address']) ?></div>
+  </div>
+
+  <button class="account-info-button">アカウント設定</button>
+
+  <script>
+    const showBtn = document.getElementById('show-pass');
+    const passMask = document.getElementById('password-mask');
+    const passReal = document.getElementById('password-real');
+
+    // 👁 ボタンを押している間だけパスワード表示
+    showBtn.addEventListener('mousedown', () => {
+      passMask.style.display = 'none';
+      passReal.style.display = 'inline';
+    });
+    showBtn.addEventListener('mouseup', () => {
+      passMask.style.display = 'inline';
+      passReal.style.display = 'none';
+    });
+    // 指を外に出した場合も安全に戻す
+    showBtn.addEventListener('mouseleave', () => {
+      passMask.style.display = 'inline';
+      passReal.style.display = 'none';
+    });
+  </script>
+</div>

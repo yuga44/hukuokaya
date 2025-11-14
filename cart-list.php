@@ -3,6 +3,7 @@
 <head>
 </head>
 <body>
+    <link rel="stylesheet" href="css/cart-list.css">
   <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
     <div class="nav-item">
