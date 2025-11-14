@@ -1,4 +1,14 @@
 <?php
+session_start();
+ 
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていなければリダイレクト
+    header('Location: Login.php?error=not_logged_in');
+    exit;
+}
+?>
+
+<?php
     // --- DB接続 ---
     $dsn = 'mysql:host=localhost;dbname=;charset=utf8';
     $user = '';
@@ -64,8 +74,7 @@
   </nav>
 
   <!-- タイトル・ボタン -->
-  <button class="back">←</button>
-  <button class="cancel">×</button>
+  <button class="back"><a href="./mypage.php"←</button>
   <h1>購入履歴</h1>
 
   <div class="content">
