@@ -20,19 +20,27 @@ if (!isset($_SESSION['member_id'])) {
     <!-- ナビゲーション -->
     <nav class="navigation-rail">
       <div class="nav-item">
-        <img src="img/icon-3.svg" alt="メインページ" />
+        <a href="mainpage.php">
+          <img src="img/click_scam.jpg" alt="メインページ" />
+        </a>
         <span>メインページ</span>
       </div>
       <div class="nav-item">
-        <img src="img/icon-8.svg" alt="マイページ" />
+        <a href="mypage.php">
+          <img src="img/click_scam.jpg" alt="マイページ" />
+        </a>
         <span>マイページ</span>
       </div>
       <div class="nav-item">
-        <img src="img/icon-8.svg" alt="カート" />
+        <a href="cart-list.php">
+          <img src="img/click_scam.jpg" alt="カート" />
+        </a>
         <span>カート</span>
       </div>
       <div class="nav-item">
-        <img src="img/icon-8.svg" alt="出品" />
+        <a href="listing.php">
+          <img src="img/click_scam.jpg" alt="出品" />
+        </a>
         <span>出品</span>
       </div>
     </nav>
