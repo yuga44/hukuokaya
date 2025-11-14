@@ -1,15 +1,23 @@
 <?php
-require 'db-connect.php';
 session_start();
+require 'db-connect.php';
 
-// ログイン確認
-if (!isset($_SESSION['member'])) {
-  exit('ログインしてください。');
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $sql = $pdo->prepare('SELECT * FROM member WHERE email = ? AND password = ?');
+  $sql->execute([$_POST['email'], $_POST['password']]);
+  $member = $sql->fetch(PDO::FETCH_ASSOC);
+
+  if ($member) {
+    // ←ここが重要！！
+    $_SESSION['member'] = $member;
+    header('Location: mainpage.php');
+    exit;
+  } else {
+    echo 'ログイン情報が間違っています。';
+  }
 }
-
-// ログイン中のユーザーIDを取得
-$member_id = $_SESSION['member']['member_id']; // ←ここ修正！（['password']ではない）
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">

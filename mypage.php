@@ -26,27 +26,29 @@
       <span>出品</span>
     </div>
   </nav>
+
   <!-- タイトル・ボタン -->
-  <button class="back">←</button>
+  <a href="mainpage.php" class="back">←</a>
   <button class="cancel">×</button>
   <h1>マイページ</h1>
+
   <!--------------------ここまでテンプレ------------------------>
 
-  <div class="content"><!---ここにコンテンツ-------->
+  <div class="content">
     <div class="mypage-item">
-      <div>ポイント残高</div>
+      <a href="purchase-history.php">購入履歴</a>
     </div>
     <div class="mypage-item">
-      <div>注文履歴</div>
+      <a href="favorite.php">お気に入り</a>
     </div>
     <div class="mypage-item">
-      <div>お気に入り</div>
+      <a href="account-info.php">アカウント情報</a>
     </div>
     <div class="mypage-item">
-      <div>アカウント情報</div>
+      <a href="listing.php">出品</a>
     </div>
     <div class="mypage-item">
-      <div>出品</div>
+      <a href="listing-completed.php">出品履歴</a>
     </div>
   </div>
 </body>
