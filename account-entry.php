@@ -1,3 +1,58 @@
+<?php
+require 'db-connect.php';
+session_start();
+
+// フォーム送信時の処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $name       = $_POST['name'] ?? '';
+    $namekana   = $_POST['namekana'] ?? '';
+    $email      = $_POST['postalcode'] ?? '';
+    $tel        = $_POST['address'] ?? '';
+    $password   = $_POST['mailaddress'] ?? '';
+    $confirm_pw = $_POST['password_confirm'] ?? '';
+    $postal     = $_POST['postal'] ?? '';
+    $address    = $_POST['address'] ?? '';
+
+    // パスワード一致チェック
+    if ($password !== $confirm_pw) {
+        $error = "パスワードが一致しません。";
+    } else {
+
+        // メール or 電話番号重複チェック
+        $check = $pdo->prepare("SELECT * FROM member WHERE mail = ? OR tel = ?");
+        $check->execute([$email, $tel]);
+
+        if ($check->fetch()) {
+            $error = "メールアドレスまたは電話番号がすでに登録されています。";
+        } else {
+
+            // パスワードをハッシュ化
+            $hashed_pw = password_hash($password, PASSWORD_DEFAULT);
+
+            // DBへ INSERT
+            $sql = $pdo->prepare("
+                INSERT INTO member (name, namekana, postalcode, address, mailaddress, tel, login_id, password)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ");
+
+            $sql->execute([
+                $name,
+                $namekana,
+                $email,
+                $tel,
+                $hashed_pw,
+                $postal,
+                $address
+            ]);
+
+            // 登録成功 → ログインページに移動
+            header("Location: Login.php?register=success");
+            exit;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -11,32 +66,34 @@
 <div class="container">
     <h2>アカウント登録</h2>
 
-    <form action="Login.html" method="post">
+    <!-- エラーメッセージ表示 -->
+    <?php if (!empty($error)): ?>
+        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+    <?php endif; ?>
+
+    <form action="" method="post">
         <div class="row">
             <div class="form-group">
-                <label for="sei">姓</label>
-                <input type="text" id="sei" name="sei" required>
-            </div>
-            <div class="form-group">
-                <label for="mei">名</label>
-                <input type="text" id="mei" name="mei" required>
+                <label for="sei">名前</label>
+                <input type="text" id="name" name="name" required>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group">
-                <label for="seikana">セイ</label>
-                <input type="text" id="seikana" name="seikana" required>
-            </div>
-            <div class="form-group">
-                <label for="meikana">メイ</label>
-                <input type="text" id="meikana" name="meikana" required>
+                <label for="seikana">ふりがな</label>
+                <input type="text" id="namekana" name="namekana" required>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="email">メールアドレスまたは電話番号</label>
+            <label for="email">メールアドレス</label>
             <input type="text" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="tel">電話番号</label>
+            <input type="tel" id="tel" name="tel" required>
         </div>
 
         <div class="form-group">
