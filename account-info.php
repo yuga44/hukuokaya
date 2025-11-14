@@ -28,8 +28,7 @@
   </nav>
 
   <!-- タイトル・ボタン -->
-  <button class="back">←</button>
-  <button class="cancel">×</button>
+  <button class="back"><a href="./mypage.php">←</a></button>
   <h1>アカウント情報</h1>
   <!--ここまでテンプレ-->
 
