@@ -1,23 +1,22 @@
 <?php
-session_start();
 require 'db-connect.php';
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $sql = $pdo->prepare('SELECT * FROM member WHERE email = ? AND password = ?');
-  $sql->execute([$_POST['email'], $_POST['password']]);
-  $member = $sql->fetch(PDO::FETCH_ASSOC);
-
-  if ($member) {
-    // ←ここが重要！！
-    $_SESSION['member'] = $member;
-    header('Location: mainpage.php');
-    exit;
-  } else {
-    echo 'ログイン情報が間違っています。';
-  }
+// ログイン確認
+if (!isset($_SESSION['member_id'])) {
+  exit('ログインしてください。');
 }
+
+// ログイン中のユーザーIDを取得
+$member_id = $_SESSION['member_id'];
 ?>
 
+<?php
+  // listing_productから出品情報を取得
+  $sql = $pdo->prepare('SELECT * FROM listing_product WHERE member_id = ? AND buy_flag = 0');
+  $sql->execute([$member_id]);
+  $listings = $sql->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -49,20 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </nav>
 
   <!-- タイトル・ボタン -->
-  <button class="back">←</button>
+  <button class="back" onclick="location.href='mainpage.php'">←</button>
   <button class="cancel">×</button>
   <h1>ページタイトル</h1>
 
   <div class="content">
     <h1 class="page-title">出品一覧</h1>
-    <p class="count">？件</p>
+    <p class="count"><?= count($listings) ?>件</p>
     <h2 class="section-title">出品リスト</h2>
 
 <?php
-  // listing_productから出品情報を取得
-  $sql = $pdo->prepare('SELECT * FROM listing_product WHERE member_id = ? AND flag = 0');
-  $sql->execute([$member_id]);
-  $listings = $sql->fetchAll(PDO::FETCH_ASSOC);
 
   if (count($listings) === 0) {
       echo '<p>出品中の商品はありません。</p>';
