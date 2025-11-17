@@ -73,10 +73,9 @@ $member_id = $_SESSION['member_id'];
    <a href="mypage.php">
     <button class="back">←</button>
   </a>
-  <h1>ページタイトル</h1>
+  <h1>出品一覧</h1>
 
   <div class="content">
-    <h1 class="page-title">出品一覧</h1>
     <p class="count"><?= count($listings) ?>件</p>
     <h2 class="section-title">出品リスト</h2>
 
