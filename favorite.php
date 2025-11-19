@@ -11,16 +11,25 @@ if (!isset($_SESSION['member_id'])) {
 $member_id = $_SESSION['member_id'];
 
 try {
-    // ★ ログイン中会員のお気に入りだけ取得
-    // 例：favorite テーブルに (favorite_id, member_id, item_name, item_img) がある想定
-    $sql = "SELECT favorite_id, item_name, item_img 
-              FROM favorite 
-             WHERE member_id = ?";
+    // ★ ログイン中会員のお気に入り＋商品情報を取得
+    $sql = "
+        SELECT 
+            f.favorite_id,
+            f.product_id,
+            p.product_name,
+            p.image
+        FROM favorite AS f
+        JOIN listing_product AS p
+          ON f.product_id = p.product_id
+        WHERE 
+          f.member_id = ?
+          AND f.favorite_flag = 1
+    ";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$member_id]);
     $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo 'データベースエラーが発生しました。';
+    echo 'データベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     exit;
 }
 ?>
@@ -75,11 +84,17 @@ try {
         <?php else: ?>
           <?php foreach ($favorites as $item): ?>
             <div class="item-card">
-              <img src="<?php echo htmlspecialchars($item['item_img'], ENT_QUOTES, 'UTF-8'); ?>"
-                   alt="<?php echo htmlspecialchars($item['item_name'], ENT_QUOTES, 'UTF-8'); ?>">
-              <p><?php echo htmlspecialchars($item['item_name'], ENT_QUOTES, 'UTF-8'); ?></p>
+              <!-- 画像パス listing_product.image を使用 -->
+              <?php if (!empty($item['image'])): ?>
+                <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>"
+                     alt="<?php echo htmlspecialchars($item['product_name'], ENT_QUOTES, 'UTF-8'); ?>">
+              <?php else: ?>
+                <div class="no-image">画像なし</div>
+              <?php endif; ?>
 
-              <!-- 削除ボタン：確認してそのまま削除 -->
+              <p><?php echo htmlspecialchars($item['product_name'], ENT_QUOTES, 'UTF-8'); ?></p>
+
+              <!-- 削除ボタン：確認してすぐ画面から消す＋DB更新 -->
               <button
                 type="button"
                 class="remove-btn"
@@ -104,7 +119,6 @@ try {
           const favoriteId = button.dataset.favoriteId;
           const action = button.dataset.action;
 
-          // 確認ダイアログ
           if (!confirm("削除しますか？")) return;
 
           // 画面から即削除
