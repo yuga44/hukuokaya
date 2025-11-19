@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>購入画面</title>
-  <link rel="stylesheet" href="purchase-screen.css">
+  <link rel="stylesheet" href="css/purchase-screen.css">
 </head>
 <body>
   <div class="main">
