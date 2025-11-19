@@ -106,7 +106,6 @@ _    if (!empty($password) && $password !== $confirm_pw) {
 </head>
 <body>
 
-<button class="back"><a href="./mypage.php">←</a></button>
 <div class="container">
     <h2>会員情報編集</h2>
 

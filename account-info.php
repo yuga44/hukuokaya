@@ -74,10 +74,7 @@ if (!isset($_SESSION['member_id'])) {
     <div><?= htmlspecialchars($user['address']) ?></div>
   </div>
 
-  <button class="account-info-button">
-  <a href = "accout-edit.php">
-    アカウント設定
-  </a></button>
+  <button class="account-info-button">アカウント設定</button>
 
   <script>
     const showBtn = document.getElementById('show-pass');
