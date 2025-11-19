@@ -10,33 +10,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $namekana    = $_POST['namekana'] ?? '';
     $mailaddress = $_POST['email'] ?? '';
     $tel         = $_POST['tel'] ?? '';
+    $login_id    = $_POST['login_id'] ?? '';   // ← ログインIDは別
     $password    = $_POST['password'] ?? '';
     $confirm_pw  = $_POST['password_confirm'] ?? '';
     $postalcode  = $_POST['postal'] ?? '';
     $address     = $_POST['address'] ?? '';
 
-    // login_id はメールアドレスで代用（任意変更OK）
-    $login_id    = $mailaddress;
-
-    // パスワード一致チェック
+    // ★ パスワード一致チェック
     if ($password !== $confirm_pw) {
         $error = "パスワードが一致しません。";
     } else {
 
-        // メール or 電話番号の重複チェック
-        $check = $pdo->prepare("SELECT * FROM member WHERE mailaddress = ? OR tel = ?");
-        $check->execute([$mailaddress, $tel]);
+        // ID / メール / 電話番号の重複チェック
+        $check = $pdo->prepare("
+            SELECT * FROM member
+            WHERE login_id = ? OR mailaddress = ? OR tel = ?
+        ");
+        $check->execute([$login_id, $mailaddress, $tel]);
 
         if ($check->fetch()) {
-            $error = "メールアドレスまたは電話番号がすでに登録されています。";
+            $error = "ID・メールアドレス・電話番号のいずれかが既に登録されています。";
         } else {
 
-            // パスワードをハッシュ化
-            $hashed_pw = password_hash($password, PASSWORD_DEFAULT);
-
-            // INSERT 文（あなたの DB カラムに完全対応）
+            // ★ パスワードをハッシュ化せず、そのまま保存する版
             $sql = $pdo->prepare("
-                INSERT INTO member (name, namekana, postalcode, address, mailaddress, tel, login_id, password)
+                INSERT INTO member
+                (name, namekana, postalcode, address, mailaddress, tel, login_id, password)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ");
 
@@ -48,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mailaddress,
                 $tel,
                 $login_id,
-                $hashed_pw
+                $password     // ← 平文パスワード
             ]);
 
             // 登録成功 → ログインページへ
@@ -76,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form action="" method="post">
+
         <div class="row">
             <div class="form-group">
                 <label>名前</label>
@@ -88,6 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label>ふりがな</label>
                 <input type="text" id="namekana" name="namekana" required>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>ログインID</label>
+            <input type="text" id="login_id" name="login_id" required>
         </div>
 
         <div class="form-group">
