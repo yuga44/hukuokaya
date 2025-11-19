@@ -48,7 +48,7 @@
       <a href="listing.php">出品</a>
     </div>
     <div class="mypage-item">
-      <a href="listing-completed.php">出品履歴</a>
+      <a href="listing-completed.php">出品一覧</a>
     </div>
   </div>
 </body>
