@@ -25,7 +25,6 @@ if (!$user) {
 // -------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // フォーム値
     $name        = $_POST['name'] ?? '';
     $namekana    = $_POST['namekana'] ?? '';
     $mailaddress = $_POST['email'] ?? '';
@@ -36,28 +35,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postalcode  = $_POST['postal'] ?? '';
     $address     = $_POST['address'] ?? '';
 
-    // ★パスワード一致チェック（←ここ修正済み）
-    if (!empty($password) && $password !== $confirm_pw) {
+_    if (!empty($password) && $password !== $confirm_pw) {
         $error = "パスワードが一致しません。";
     } else {
 
-        // ★重複チェック（自分以外のユーザーを対象）
-        $check = $pdo->prepare("
-            SELECT * FROM member
-            WHERE (login_id = ? OR mailaddress = ? OR tel = ?)
-              AND member_id != ?
-        ");
-        $check->execute([$login_id, $mailaddress, $tel, $member_id]);
-
+        // ---------- ログインIDの重複チェック ----------
+        $check = $pdo->prepare("SELECT 1 FROM member WHERE login_id = ? AND member_id != ?");
+        $check->execute([$login_id, $member_id]);
         if ($check->fetch()) {
-            $error = "同じログインID・メールアドレス・電話番号のユーザーが存在します。";
-        } else {
+            $error = "このログインIDは既に使われています。";
+        }
 
-            // パスワードは入力された場合のみ更新
-            $update_sql = "
+        // ---------- メールアドレスの重複チェック ----------
+        if (empty($error)) {
+            $check = $pdo->prepare("SELECT 1 FROM member WHERE mailaddress = ? AND member_id != ?");
+            $check->execute([$mailaddress, $member_id]);
+            if ($check->fetch()) {
+                $error = "このメールアドレスは既に登録されています。";
+            }
+        }
+
+        // ---------- 電話番号の重複チェック ----------
+        if (empty($error)) {
+            $check = $pdo->prepare("SELECT 1 FROM member WHERE tel = ? AND member_id != ?");
+            $check->execute([$tel, $member_id]);
+            if ($check->fetch()) {
+                $error = "この電話番号は既に登録されています。";
+            }
+        }
+
+        // ---------- 問題なければ UPDATE ----------
+        if (empty($error)) {
+
+            // SQL作成（パスワード入力時だけ更新）
+            $sql_str = "
                 UPDATE member
-                   SET name = ?, namekana = ?, postalcode = ?, address = ?,
-                       mailaddress = ?, tel = ?, login_id = ?
+                SET name = ?, namekana = ?, postalcode = ?, address = ?,
+                    mailaddress = ?, tel = ?, login_id = ?
             ";
 
             $params = [
@@ -66,15 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
 
             if (!empty($password)) {
-                $update_sql .= ", password = ?";
-                $params[] = $password;  // ← 平文で保存
+                $sql_str .= ", password = ?";
+                $params[] = $password;
             }
 
-            $update_sql .= " WHERE member_id = ?";
+            $sql_str .= " WHERE member_id = ?";
             $params[] = $member_id;
 
-            $stmt = $pdo->prepare($update_sql);
-            $stmt->execute($params);
+            $update = $pdo->prepare($sql_str);
+            $update->execute($params);
 
             header("Location: account-info.php?updated=1");
             exit;
@@ -92,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
+<button class="back"><a href="./mypage.php">←</a></button>
 <div class="container">
     <h2>会員情報編集</h2>
 
@@ -104,30 +119,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="row">
             <div class="form-group">
                 <label>名前</label>
-                <input type="text" id="name" name="name" value="<?= htmlspecialchars($user['name']) ?>" required>
+                <input type="text" id="name" name="name"
+                       value="<?= htmlspecialchars($user['name']) ?>" required>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group">
                 <label>ふりがな</label>
-                <input type="text" id="namekana" name="namekana" value="<?= htmlspecialchars($user['namekana']) ?>" required>
+                <input type="text" id="namekana" name="namekana"
+                       value="<?= htmlspecialchars($user['namekana']) ?>" required>
             </div>
         </div>
 
         <div class="form-group">
             <label>ログインID</label>
-            <input type="text" id="login_id" name="login_id" value="<?= htmlspecialchars($user['login_id']) ?>" required>
+            <input type="text" id="login_id" name="login_id"
+                   value="<?= htmlspecialchars($user['login_id']) ?>" required>
         </div>
 
         <div class="form-group">
             <label>メールアドレス</label>
-            <input type="text" id="email" name="email" value="<?= htmlspecialchars($user['mailaddress']) ?>" required>
+            <input type="text" id="email" name="email"
+                   value="<?= htmlspecialchars($user['mailaddress']) ?>" required>
         </div>
-        
+
         <div class="form-group">
             <label>電話番号</label>
-            <input type="tel" id="tel" name="tel" value="<?= htmlspecialchars($user['tel']) ?>" required>
+            <input type="tel" id="tel" name="tel"
+                   value="<?= htmlspecialchars($user['tel']) ?>" required>
         </div>
 
         <div class="form-group">
@@ -142,12 +162,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="form-group">
             <label>郵便番号</label>
-            <input type="text" id="postal" name="postal" value="<?= htmlspecialchars($user['postalcode']) ?>">
+            <input type="text" id="postal" name="postal"
+                   value="<?= htmlspecialchars($user['postalcode']) ?>">
         </div>
 
         <div class="form-group">
             <label>住所</label>
-            <input type="text" id="address" name="address" value="<?= htmlspecialchars($user['address']) ?>">
+            <input type="text" id="address" name="address"
+                   value="<?= htmlspecialchars($user['address']) ?>">
         </div>
 
         <button type="submit">更新する</button>
