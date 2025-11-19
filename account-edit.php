@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postalcode  = $_POST['postal'] ?? '';
     $address     = $_POST['address'] ?? '';
 
-    // ★パスワード一致チェック
-    if (!empty($password) && $password !== $confirm_pw)) {
+    // ★パスワード一致チェック（←ここ修正済み）
+    if (!empty($password) && $password !== $confirm_pw) {
         $error = "パスワードが一致しません。";
     } else {
 
