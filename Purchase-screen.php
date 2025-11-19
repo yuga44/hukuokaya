@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>購入画面</title>
-  <link rel="stylesheet" href="purchase-screen.css">
+  <link rel="stylesheet" href="css/purchase-screen.css">
 </head>
 <body>
   <div class="main">
