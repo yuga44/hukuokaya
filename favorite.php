@@ -1,13 +1,28 @@
 <?php
-// 仮のお気に入りデータ
-$favorites = [
-  ["name" => "デニムジャケット", "img" => "img/denim.jpg"],
-  ["name" => "スウェットシャツ", "img" => "img/sweat.jpg"],
-  ["name" => "レザーバッグ", "img" => "img/bag.jpg"],
-  ["name" => "スニーカー", "img" => "img/shoes.jpg"],
-  ["name" => "キャップ", "img" => "img/cap.jpg"],
-  ["name" => "シャツ", "img" => "img/shirt.jpg"]
-];
+session_start();
+require 'db-connect.php';
+
+// ★ ログインチェック（member_id がないときはログイン画面へ）
+if (!isset($_SESSION['member_id'])) {
+    header('Location: Login.php');
+    exit;
+}
+
+$member_id = $_SESSION['member_id'];
+
+try {
+    // ★ ログイン中会員のお気に入りだけ取得
+    // 例：favorite テーブルに (favorite_id, member_id, item_name, item_img) がある想定
+    $sql = "SELECT favorite_id, item_name, item_img 
+              FROM favorite 
+             WHERE member_id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$member_id]);
+    $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo 'データベースエラーが発生しました。';
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,17 +43,18 @@ $favorites = [
       <img src="img/icon-8.svg" alt="マイページ">
       <span>マイページ</span>
     </a>
-    <a href="cart-list.php" class="nav-item">
+    <a href="cart.php" class="nav-item">
       <img src="img/icon-8.svg" alt="カート">
       <span>カート</span>
     </a>
-    <a href="listng.php" class="nav-item">
+    <a href="sell.php" class="nav-item">
       <img src="img/icon-8.svg" alt="出品">
       <span>出品</span>
     </a>
   </nav>
 
   <main class="content">
+    <!-- アプリバー -->
     <header class="app-bar">
       <div class="headline">お気に入り</div>
       <div class="trailing-icons">
@@ -47,40 +63,57 @@ $favorites = [
       </div>
     </header>
 
+    <!-- お気に入り商品一覧 -->
     <section class="section">
       <div class="section-header">
         <div class="title">お気に入りアイテム</div>
       </div>
 
       <div class="items">
-        <?php foreach ($favorites as $item): ?>
-          <div class="item-card">
-            <img src="<?php echo htmlspecialchars($item['img']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
-            <p><?php echo htmlspecialchars($item['name']); ?></p>
-            <button type="button" class="remove-btn" data-item-name="<?php echo htmlspecialchars($item['name']); ?>" data-action="remove_favorite.php">削除</button>
-          </div>
-        <?php endforeach; ?>
+        <?php if (empty($favorites)): ?>
+          <p>お気に入りはまだありません。</p>
+        <?php else: ?>
+          <?php foreach ($favorites as $item): ?>
+            <div class="item-card">
+              <img src="<?php echo htmlspecialchars($item['item_img'], ENT_QUOTES, 'UTF-8'); ?>"
+                   alt="<?php echo htmlspecialchars($item['item_name'], ENT_QUOTES, 'UTF-8'); ?>">
+              <p><?php echo htmlspecialchars($item['item_name'], ENT_QUOTES, 'UTF-8'); ?></p>
+
+              <!-- 削除ボタン：確認してそのまま削除 -->
+              <button
+                type="button"
+                class="remove-btn"
+                data-favorite-id="<?php echo (int)$item['favorite_id']; ?>"
+                data-action="remove_favorite.php"
+              >
+                削除
+              </button>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
     </section>
   </main>
 
+  <!-- JSで削除処理 -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".remove-btn").forEach(button => {
-        button.addEventListener("click", async e => {
+        button.addEventListener("click", async (e) => {
           const card = e.target.closest(".item-card");
-          const itemName = button.dataset.itemName;
+          const favoriteId = button.dataset.favoriteId;
           const action = button.dataset.action;
 
+          // 確認ダイアログ
           if (!confirm("削除しますか？")) return;
 
-          // 画面上から即削除
+          // 画面から即削除
           card.remove();
 
           // サーバーにも削除リクエスト送信
           try {
             const formData = new FormData();
-            formData.append("item_name", itemName);
+            formData.append("favorite_id", favoriteId);
 
             await fetch(action, {
               method: "POST",
