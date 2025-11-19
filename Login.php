@@ -60,7 +60,7 @@
         </p>
       <?php endif; ?>
 
-      <button type="button" class="sub-btn" onclick="location.href='register.php'">
+      <button type="button" class="sub-btn" onclick="location.href='Login-entry.php'">
         アカウントをお持ちでない方
       </button>
       <button type="submit" class="login-btn">ログイン</button>
