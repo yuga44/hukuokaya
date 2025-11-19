@@ -3,10 +3,12 @@ require 'db-connect.php';
 session_start();
 
 // ログインチェック（ログインしていなければログインページへ）
-/*if (!isset($_SESSION['member_id'])) {
-    header('Location: Login.php');
+if ($member) {
+    $_SESSION['member'] = $member;
+    $_SESSION['member_id'] = $member['member_id']; // ← 必須！
+    header('Location: mainpage.php');
     exit;
-}*/
+}
 
 $product_id = $_GET['product_id'] ?? '';
 if (!$product_id) {
@@ -69,6 +71,10 @@ if (!$product) {
 
     <div class="content">
         <form action="update-listing.php" method="post" enctype="multipart/form-data">
+          <!-- 画像（更新しない場合は空） -->
+           <img src="<?= htmlspecialchars($product['image']) ?>" alt="商品画像">
+            <input type="file" name="image">
+
             <!-- 商品ID -->
             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['product_id']) ?>">
 
@@ -95,9 +101,6 @@ if (!$product) {
             <!-- 商品説明 -->
             <textarea name="product_detail" placeholder="商品の説明" required><?= htmlspecialchars($product['product_detail']) ?></textarea>
 
-            <!-- 画像（更新しない場合は空） -->
-            <p>現在の画像: <?= htmlspecialchars($product['image']) ?></p>
-            <input type="file" name="image">
 
             <button type="submit" class="submit">更新する</button>
         </form>
