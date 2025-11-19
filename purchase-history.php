@@ -10,18 +10,16 @@ if (!isset($_SESSION['member_id'])) {
 
 <?php
     // --- DB接続 ---
-    $dsn = 'mysql:host=localhost;dbname=;charset=utf8';
-    $user = '';
-    $pass = '';
+    // データベース接続情報がここに直接書かれていたため削除し、
+    // 外部ファイル db-connect.php を読み込むよう修正します。
+    require_once 'db-connect.php';
 
-    try {
-      $pdo = new PDO($dsn, $user, $pass);
-    } catch (PDOException $e) {
-      exit('データベースに接続できません: ' . $e->getMessage());
-    }
+    // エラー処理（$pdoがdb-connect.phpで定義されているため、ここでは不要）
 
     // --- 会員ID ---
-    $member_id = 1; // テスト用。実際は $_SESSION などで取得
+    // テスト用の固定値「1」ではなく、セッションから会員IDを取得するように修正します。
+    $member_id = $_SESSION['member_id']; // 実際はセッションから取得
+    // $member_id = 1; // 元のテスト用コード
 
     // --- 購入履歴を取得 ---
     $sql = "
@@ -53,7 +51,6 @@ if (!isset($_SESSION['member_id'])) {
   <link rel="stylesheet" href="cart-list.css">
 </head>
 <body>
-  <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
     <div class="nav-item">
       <img src="img/icon-cart.svg" alt="カート">
@@ -73,7 +70,6 @@ if (!isset($_SESSION['member_id'])) {
     </div>
   </nav>
 
-  <!-- タイトル・ボタン -->
   <button class="back"><a href="./mypage.php"←</button>
   <h1>購入履歴</h1>
 
