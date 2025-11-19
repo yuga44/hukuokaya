@@ -1,38 +1,95 @@
 <?php
-// ===== 商品情報（洋服用） =====
-$product_name = "デニムジャケット";
-$product_price = 8900;
+session_start();
+require 'db-connect.php';
+
+// ▼ ログインチェック（ログインしてない場合はログイン画面へ）
+if (!isset($_SESSION['member_id'])) {
+    header('Location: Login.php');
+    exit;
+}
+
+$member_id = (int)$_SESSION['member_id'];
+
+// ▼ 1. カート画面から送られてきた product_id を受け取る
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $product_id = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+} else {
+    // 直接URLで来たとき用（例：purchase-screen.php?product_id=3）
+    $product_id = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
+}
+
+if ($product_id <= 0) {
+    echo '商品が正しく指定されていません。';
+    exit;
+}
+
+// ▼ 2. listing_product テーブルから商品情報を取得
+try {
+    $sql = "SELECT product_id, product_name, price, image, product_detail
+              FROM listing_product
+             WHERE product_id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$product_id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$product) {
+        echo '指定された商品が存在しません。';
+        exit;
+    }
+} catch (PDOException $e) {
+    echo '商品取得時のデータベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+    exit;
+}
+
+// ▼ 3. 商品情報
+$product_name   = $product['product_name'];
+$product_price  = (int)$product['price'];
+$product_image  = $product['image'];          // 画像パス
+$product_detail = $product['product_detail'];
+
 $shipping_fee = 600;
 $total = $product_price + $shipping_fee;
 
-// ===== ユーザー情報（初期値） =====
-$payment_method = "クレジットカード";
-$user_name = "田中 太郎";
-$user_address = "福岡県福岡市中央区1-2-3";
-$user_phone = "090-1234-5678";
+// ▼ 4. member テーブルからユーザー情報を取得（name, address, tel）
+try {
+    $sql = "SELECT name, address, tel
+              FROM member
+             WHERE member_id = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$member_id]);
+    $member = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// ===== フォーム送信時の処理 =====
+    if (!$member) {
+        echo '会員情報が取得できませんでした。';
+        exit;
+    }
+} catch (PDOException $e) {
+    echo '会員情報取得時のデータベースエラー: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+    exit;
+}
+
+// ▼ 5. ユーザー情報（DBの値）
+$user_name    = $member['name'];
+$user_address = $member['address'];
+$user_phone   = $member['tel'];
+
+// ▼ 6. 画面から一時的に編集されたときに上書き（DB更新はしていない）
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!empty($_POST['payment_method'])) {
-    $payment_method = htmlspecialchars($_POST['payment_method'], ENT_QUOTES, 'UTF-8');
-  }
-  if (!empty($_POST['user_name'])) {
-    $user_name = htmlspecialchars($_POST['user_name'], ENT_QUOTES, 'UTF-8');
-  }
-  if (!empty($_POST['user_address'])) {
-    $user_address = htmlspecialchars($_POST['user_address'], ENT_QUOTES, 'UTF-8');
-  }
-  if (!empty($_POST['user_phone'])) {
-    $user_phone = htmlspecialchars($_POST['user_phone'], ENT_QUOTES, 'UTF-8');
-  }
+    if (isset($_POST['user_name'])) {
+        $user_name = htmlspecialchars($_POST['user_name'], ENT_QUOTES, 'UTF-8');
+    }
+    if (isset($_POST['user_address'])) {
+        $user_address = htmlspecialchars($_POST['user_address'], ENT_QUOTES, 'UTF-8');
+    }
+    if (isset($_POST['user_phone'])) {
+        $user_phone = htmlspecialchars($_POST['user_phone'], ENT_QUOTES, 'UTF-8');
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>購入画面</title>
   <link rel="stylesheet" href="purchase-screen.css">
 </head>
@@ -41,27 +98,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="javascript:history.back();" class="back-btn">←</a>
     <h1>購入画面</h1>
 
+    <!-- 商品情報 -->
     <div class="product">
-      <img src="images/denim_jacket.jpg" alt="商品画像">
-      <div>
-        <p>商品名：<?php echo htmlspecialchars($product_name); ?></p>
-        <p>価格：￥<?php echo number_format($product_price); ?></p>
-      </div>
-    </div>
+      <?php if (!empty($product_image)): ?>
+        <img src="<?php echo htmlspecialchars($product_image, ENT_QUOTES, 'UTF-8'); ?>" alt="商品画像">
+      <?php else: ?>
+        <div class="no-image">画像なし</div>
+      <?php endif; ?>
 
-    <!-- 支払い方法 -->
-    <div class="section">
-      <h2>支払い方法</h2>
-      <div class="info-box">
-        <?php echo $payment_method; ?>
-        <form action="" method="post" class="edit-form">
-          <select name="payment_method">
-            <option value="クレジットカード">クレジットカード</option>
-            <option value="コンビニ払い">コンビニ払い</option>
-            <option value="銀行振込">銀行振込</option>
-          </select>
-          <button type="submit" class="save-btn">保存</button>
-        </form>
+      <div>
+        <p>商品名：<?php echo htmlspecialchars($product_name, ENT_QUOTES, 'UTF-8'); ?></p>
+        <p>価格：￥<?php echo number_format($product_price); ?></p>
+        <p><?php echo nl2br(htmlspecialchars($product_detail, ENT_QUOTES, 'UTF-8')); ?></p>
       </div>
     </div>
 
@@ -69,14 +117,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="section">
       <h2>配送先</h2>
       <div class="info-box">
-        <?php echo $user_name; ?><br>
-        <?php echo $user_address; ?><br>
-        <?php echo $user_phone; ?>
+        <?php echo htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8'); ?><br>
+        <?php echo htmlspecialchars($user_address, ENT_QUOTES, 'UTF-8'); ?><br>
+        <?php echo htmlspecialchars($user_phone, ENT_QUOTES, 'UTF-8'); ?>
 
+        <!-- 表示を一時的に変更したい用（DBにはまだ反映しない） -->
         <form action="" method="post" class="edit-form">
-          <input type="text" name="user_name" placeholder="氏名" value="<?php echo $user_name; ?>"><br>
-          <input type="text" name="user_address" placeholder="住所" value="<?php echo $user_address; ?>"><br>
-          <input type="text" name="user_phone" placeholder="電話番号" value="<?php echo $user_phone; ?>"><br>
+          <input type="hidden" name="product_id" value="<?php echo (int)$product_id; ?>">
+          <input type="text" name="user_name" placeholder="氏名" value="<?php echo htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8'); ?>"><br>
+          <input type="text" name="user_address" placeholder="住所" value="<?php echo htmlspecialchars($user_address, ENT_QUOTES, 'UTF-8'); ?>"><br>
+          <input type="text" name="user_phone" placeholder="電話番号" value="<?php echo htmlspecialchars($user_phone, ENT_QUOTES, 'UTF-8'); ?>"><br>
           <button type="submit" class="save-btn">保存</button>
         </form>
       </div>
@@ -92,16 +142,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
 
-    <!-- 購入確定ボタン（purchase-completed.phpへ遷移） -->
+    <!-- 購入確定ボタン -->
     <form action="purchase-completed.php" method="post">
-      <input type="hidden" name="product_name" value="<?php echo $product_name; ?>">
-      <input type="hidden" name="product_price" value="<?php echo $product_price; ?>">
-      <input type="hidden" name="shipping_fee" value="<?php echo $shipping_fee; ?>">
-      <input type="hidden" name="total" value="<?php echo $total; ?>">
-      <input type="hidden" name="payment_method" value="<?php echo $payment_method; ?>">
-      <input type="hidden" name="user_name" value="<?php echo $user_name; ?>">
-      <input type="hidden" name="user_address" value="<?php echo $user_address; ?>">
-      <input type="hidden" name="user_phone" value="<?php echo $user_phone; ?>">
+      <input type="hidden" name="product_id" value="<?php echo (int)$product_id; ?>">
+      <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product_name, ENT_QUOTES, 'UTF-8'); ?>">
+      <input type="hidden" name="product_price" value="<?php echo (int)$product_price; ?>">
+      <input type="hidden" name="shipping_fee" value="<?php echo (int)$shipping_fee; ?>">
+      <input type="hidden" name="total" value="<?php echo (int)$total; ?>">
+
+      <input type="hidden" name="user_name" value="<?php echo htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8'); ?>">
+      <input type="hidden" name="user_address" value="<?php echo htmlspecialchars($user_address, ENT_QUOTES, 'UTF-8'); ?>">
+      <input type="hidden" name="user_phone" value="<?php echo htmlspecialchars($user_phone, ENT_QUOTES, 'UTF-8'); ?>">
 
       <button type="submit" class="confirm-btn">購入を確定する</button>
     </form>
