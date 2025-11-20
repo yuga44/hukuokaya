@@ -1,0 +1,95 @@
+body {
+  background-color: #fff5ff;
+  font-family: "Hiragino Sans", "Meiryo", sans-serif;
+  display: flex;
+  justify-content: center;  /* 横中央 */
+  align-items: center;      /* 縦中央 */
+  height: 100vh;            /* 画面全体の高さ */
+  margin: 0;
+}
+
+.login-container {
+  background-color: #fff;
+  width: 400px;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  display: flex;            /* 中身をflexboxで */
+  flex-direction: column;   /* 縦に並べる */
+  gap: 20px;                /* 要素間の間隔 */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;      /* 少し余白 */
+}
+
+header h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.back, .close {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-direction: column;   /* フォーム内も縦並び */
+  gap: 15px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #ff00ff;
+}
+
+.sub-btn {
+  background-color: #ffffff;
+  border-color: #000;
+  color: #000;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.sub-btn:hover {
+  background-color: #ffffff;
+}
+
+.login-btn {
+  background-color: #282727;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+ background-color: #333;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
