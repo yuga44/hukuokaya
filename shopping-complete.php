@@ -72,28 +72,37 @@ try {
   <meta charset="UTF-8">
   <title>出品完了</title>
   <link rel="stylesheet" href="css/shopping-complete.css">
+  <link rel="stylesheet" href="css/template.css">
 </head>
 <body>
 
   <!-- ナビゲーション -->
   <nav class="navigation-rail">
-    <div class="nav-item">
-      <img src="img/icon-upload.svg" alt="出品">
-      <span>出品</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-home.svg" alt="メインページ">
-      <span>メインページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-user.svg" alt="マイページ">
-      <span>マイページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-cart.svg" alt="カート">
-      <span>カート</span>
-    </div>
-  </nav>
+      <div class="nav-item">
+        <a href="mainpage.php">
+          <img src="img/click_scam.jpg" alt="メインページ" />
+        </a>
+        <span>メインページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="mypage.php">
+          <img src="img/click_scam.jpg" alt="マイページ" />
+        </a>
+        <span>マイページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="cart-list.php">
+          <img src="img/click_scam.jpg" alt="カート" />
+        </a>
+        <span>カート</span>
+      </div>
+      <div class="nav-item">
+        <a href="listing.php">
+          <img src="img/click_scam.jpg" alt="出品" />
+        </a>
+        <span>出品</span>
+      </div>
+    </nav>
 
   <!-- メインコンテンツ -->
   <main class="content">
