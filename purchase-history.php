@@ -18,6 +18,7 @@ if (!isset($_SESSION['member_id'])) {
     $member_id = $_SESSION['member_id']; // セッションから会員IDを取得
 
     // --- 購入履歴を取得 ---
+    // detailテーブルが空のため、listing_productテーブルの buy_id をキーとして直接結合するように変更。
     $sql = "
     SELECT 
       p.product_name,
@@ -26,8 +27,7 @@ if (!isset($_SESSION['member_id'])) {
       b.date AS purchase_date,
       m.address
     FROM buy b
-    JOIN detail d ON b.buy_id = d.buy_id
-    JOIN listing_product p ON d.product_id = p.product_id
+    JOIN listing_product p ON b.buy_id = p.buy_id  -- 修正: buy_idで直接結合
     JOIN member m ON b.member_id = m.member_id
     WHERE b.member_id = :member_id
     ORDER BY b.date DESC;
@@ -35,7 +35,22 @@ if (!isset($_SESSION['member_id'])) {
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':member_id', $member_id, PDO::PARAM_INT);
-    $stmt->execute();
+    
+    // --- ここから追加 ---
+    // エラーハンドリングはそのまま残します。
+    if (!$stmt->execute()) {
+        $errorInfo = $stmt->errorInfo();
+        // 開発環境でのみ、エラー情報を出力する
+        echo "<h2>SQL実行エラーが発生しました</h2>";
+        // SQLSTATE: SQLの標準エラーコード
+        echo "<p>SQLSTATE: " . htmlspecialchars($errorInfo[0]) . "</p>"; 
+        // Driver-specific error code: データベース固有のエラーコード (MySQLなら1000番台など)
+        echo "<p>DBエラーコード: " . htmlspecialchars($errorInfo[1]) . "</p>"; 
+        // Error message: 最も重要な情報。エラーの詳細な説明
+        echo "<p>エラーメッセージ: " . htmlspecialchars($errorInfo[2]) . "</p>"; 
+        exit;
+    }
+
     $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
