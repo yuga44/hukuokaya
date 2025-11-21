@@ -82,17 +82,20 @@ $member_id = $_SESSION['member_id'];
 <?php
 
   if (count($listings) === 0) {
-      echo '<p>出品中の商品はありません。</p>';
-  } else {
-      echo '<div class="item-list">';
-      foreach ($listings as $row) {
-          echo '<div class="item-card">';
-          echo '<img src="' . htmlspecialchars($row['image']) . '" alt="商品画像">';
-          echo '<p>' . htmlspecialchars($row['product_name']) . '<br>￥' . htmlspecialchars($row['price']) . '</p>';
-          echo '</div>';
-      }
-      echo '</div>';
-  }
+    echo '<p>出品中の商品はありません。</p>';
+} else {
+    echo '<div class="item-list">';
+    foreach ($listings as $row) {
+
+        echo '<a href="listing-edit.php?product_id=' . htmlspecialchars($row['product_id']) . '" class="item-card">';
+
+        echo '<img src="' . htmlspecialchars($row['image']) . '" alt="商品画像">';
+        echo '<p>' . htmlspecialchars($row['product_name']) . '<br>￥' . htmlspecialchars($row['price']) . '</p>';
+
+        echo '</a>';
+    }
+    echo '</div>';
+}
 ?>
   </div>
 </body>
