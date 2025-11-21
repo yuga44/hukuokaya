@@ -12,7 +12,7 @@
     <header class="app-bar">
       <div class="headline">ふくおかやめいんぺーじ</div>
       <div class="trailing-icons">
-        <a href="kensaku.php">
+        <a href="search.php">
           <img src="img/click_scam.jpg" alt="検索" />検索
         </a>
         <a href="Login.php">
