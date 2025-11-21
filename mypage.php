@@ -8,24 +8,32 @@
 </head>
 <body>
   <!-- ナビゲーションバー -->
-  <nav class="navigation-rail">
-    <div class="nav-item">
-      <img src="img/icon-cart.svg" alt="カート">
-      <span>カート</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-home.svg" alt="メインページ">
-      <span>メインページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-user.svg" alt="マイページ">
-      <span>マイページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-upload.svg" alt="出品">
-      <span>出品</span>
-    </div>
-  </nav>
+    <nav class="navigation-rail">
+      <div class="nav-item">
+        <a href="mainpage.php">
+        <img src="img/icon-3.svg" alt="メインページ" />
+        <span>メインページ</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="account-info.php">
+        <img src="img/icon-8.svg" alt="マイページ" />
+        <span>マイページ</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="cart-list.php">
+        <img src="img/icon-8.svg" alt="カート" />
+        <span>カート</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="listing.php">
+        <img src="img/icon-8.svg" alt="出品" />
+        <span>出品</span>
+        </a>
+      </div>
+    </nav>
 
   <!-- タイトル・ボタン -->
   <a href="mainpage.php" class="back">←</a>
