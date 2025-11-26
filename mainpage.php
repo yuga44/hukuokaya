@@ -12,7 +12,7 @@
     <header class="app-bar">
       <div class="headline">ふくおかやめいんぺーじ</div>
       <div class="trailing-icons">
-        <a href="kensaku.php">
+        <a href="search.php">
           <img src="img/click_scam.jpg" alt="検索" />検索
         </a>
         <a href="Login.php">
@@ -25,27 +25,27 @@
     <nav class="navigation-rail">
       <div class="nav-item">
         <a href="mainpage.php">
-          <img src="img/click_scam.jpg" alt="メインページ" />
-        </a>
+        <img src="img/icon-3.svg" alt="メインページ" />
         <span>メインページ</span>
+        </a>
       </div>
       <div class="nav-item">
-        <a href="mypage.php">
-          <img src="img/click_scam.jpg" alt="マイページ" />
-        </a>
+        <a href="account-info.php">
+        <img src="img/icon-8.svg" alt="マイページ" />
         <span>マイページ</span>
+        </a>
       </div>
       <div class="nav-item">
         <a href="cart-list.php">
-          <img src="img/click_scam.jpg" alt="カート" />
-        </a>
+        <img src="img/icon-8.svg" alt="カート" />
         <span>カート</span>
+        </a>
       </div>
       <div class="nav-item">
         <a href="listing.php">
-          <img src="img/click_scam.jpg" alt="出品" />
-        </a>
+        <img src="img/icon-8.svg" alt="出品" />
         <span>出品</span>
+        </a>
       </div>
     </nav>
 

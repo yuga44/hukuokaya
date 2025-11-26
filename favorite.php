@@ -52,11 +52,11 @@ try {
       <img src="img/icon-8.svg" alt="マイページ">
       <span>マイページ</span>
     </a>
-    <a href="cart.php" class="nav-item">
+    <a href="cart-list.php" class="nav-item">
       <img src="img/icon-8.svg" alt="カート">
       <span>カート</span>
     </a>
-    <a href="sell.php" class="nav-item">
+    <a href="listing.php" class="nav-item">
       <img src="img/icon-8.svg" alt="出品">
       <span>出品</span>
     </a>
@@ -84,7 +84,7 @@ try {
         <?php else: ?>
           <?php foreach ($favorites as $item): ?>
             <div class="item-card">
-              <!-- 画像パス listing_product.image を使用 -->
+              <!-- 商品画像 listing_product.image を使用 -->
               <?php if (!empty($item['image'])): ?>
                 <img src="<?php echo htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8'); ?>"
                      alt="<?php echo htmlspecialchars($item['product_name'], ENT_QUOTES, 'UTF-8'); ?>">
@@ -119,6 +119,7 @@ try {
           const favoriteId = button.dataset.favoriteId;
           const action = button.dataset.action;
 
+          // 確認ダイアログ
           if (!confirm("削除しますか？")) return;
 
           // 画面から即削除
