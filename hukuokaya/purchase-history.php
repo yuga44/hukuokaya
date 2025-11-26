@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-
+ 
 if (!isset($_SESSION['member_id'])) {
     // ログインしていなければリダイレクト
     header('Location: Login.php?error=not_logged_in');
@@ -12,10 +12,16 @@ if (!isset($_SESSION['member_id'])) {
 
 <?php
     // --- DB接続 ---
+    // データベース接続情報がここに直接書かれていたため削除し、
+    // 外部ファイル db-connect.php を読み込むよう修正します。
     require_once 'db-connect.php';
 
+    // エラー処理（$pdoがdb-connect.phpで定義されているため、ここでは不要）
+
     // --- 会員ID ---
-    $member_id = $_SESSION['member_id']; // セッションから会員IDを取得
+    // テスト用の固定値「1」ではなく、セッションから会員IDを取得するように修正します。
+    $member_id = $_SESSION['member_id']; // 実際はセッションから取得
+    // $member_id = 1; // 元のテスト用コード
 
     // --- 購入履歴を取得 ---
     $sql = "
@@ -27,7 +33,7 @@ if (!isset($_SESSION['member_id'])) {
       m.address
     FROM buy b
     JOIN detail d ON b.buy_id = d.buy_id
-    JOIN listing_product p ON d.product_id = p.product_id
+    JOIN product p ON d.product_id = p.product_id
     JOIN member m ON b.member_id = m.member_id
     WHERE b.member_id = :member_id
     ORDER BY b.date DESC;
@@ -44,37 +50,29 @@ if (!isset($_SESSION['member_id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>購入履歴</title>
-  <link rel="stylesheet" href="css/cart-list.css"> 
+  <link rel="stylesheet" href="cart-list.css">
 </head>
 <body>
-    <nav class="navigation-rail">
-      <div class="nav-item">
-        <a href="mainpage.php">
-        <img src="img/icon-3.svg" alt="メインページ" />
-        <span>メインページ</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="account-info.php">
-        <img src="img/icon-8.svg" alt="マイページ" />
-        <span>マイページ</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="cart-list.php">
-        <img src="img/icon-8.svg" alt="カート" />
-        <span>カート</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="listing.php">
-        <img src="img/icon-8.svg" alt="出品" />
-        <span>出品</span>
-        </a>
-      </div>
-    </nav>
+  <nav class="navigation-rail">
+    <div class="nav-item">
+      <img src="img/icon-cart.svg" alt="カート">
+      <span>カート</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-home.svg" alt="メインページ">
+      <span>メインページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-user.svg" alt="マイページ">
+      <span>マイページ</span>
+    </div>
+    <div class="nav-item">
+      <img src="img/icon-upload.svg" alt="出品">
+      <span>出品</span>
+    </div>
+  </nav>
 
-  <button class="back"><a href="./mypage.php">←</a></button>
+  <button class="back"><a href="./mypage.php"←</button>
   <h1>購入履歴</h1>
 
   <div class="content">

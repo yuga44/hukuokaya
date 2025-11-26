@@ -44,12 +44,12 @@ input {
 
 .row {
     display: flex;
-    gap: 12px;
+    gap: 12px; /* ボックスの間隔を少し広めに */
 }
 
 .row .form-group {
     flex: 1;
-    min-width: 0;
+    min-width: 0; /* flexのオーバーフロー防止 */
 }
 
 button {
@@ -68,30 +68,4 @@ button {
 
 button:hover {
     background-color: #333;
-}
-
-/* ===================================== */
-/* ここから追加（デザインは崩さない） */
-/* ===================================== */
-
-/* h2 と ← を横並びにする */
-.title-area {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* h2 を中央に保つ */
-    position: relative;      /* ← を左に固定するため */
-    margin-bottom: 25px;
-}
-
-/* 背景なしのシンプル矢印 */
-.back-btn {
-    position: absolute;
-    left: 0;
-    font-size: 22px;
-    text-decoration: none;
-    color: #333;
-}
-
-.back-btn:hover {
-    color: #000;
 }
