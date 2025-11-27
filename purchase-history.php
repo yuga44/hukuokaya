@@ -62,30 +62,30 @@ if (!isset($_SESSION['member_id'])) {
   <link rel="stylesheet" href="css/cart-list.css"> 
 </head>
 <body>
-    <nav class="navigation-rail">
+  <nav class="navigation-rail">
       <div class="nav-item">
         <a href="mainpage.php">
-        <img src="img/icon-3.svg" alt="メインページ" />
-        <span>メインページ</span>
+          <img src="img/click_scam.jpg" alt="メインページ" />
         </a>
+        <span>メインページ</span>
       </div>
       <div class="nav-item">
-        <a href="account-info.php">
-        <img src="img/icon-8.svg" alt="マイページ" />
-        <span>マイページ</span>
+        <a href="mypage.php">
+          <img src="img/click_scam.jpg" alt="マイページ" />
         </a>
+        <span>マイページ</span>
       </div>
       <div class="nav-item">
         <a href="cart-list.php">
-        <img src="img/icon-8.svg" alt="カート" />
-        <span>カート</span>
+          <img src="img/click_scam.jpg" alt="カート" />
         </a>
+        <span>カート</span>
       </div>
       <div class="nav-item">
         <a href="listing.php">
-        <img src="img/icon-8.svg" alt="出品" />
-        <span>出品</span>
+          <img src="img/click_scam.jpg" alt="出品" />
         </a>
+        <span>出品</span>
       </div>
     </nav>
 
