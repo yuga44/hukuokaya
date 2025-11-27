@@ -44,24 +44,32 @@ try {
 <body>
   <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
-    <a href="mainpage.php" class="nav-item">
-      <img src="img/icon-3.svg" alt="メインページ">
-      <span>メインページ</span>
-    </a>
-    <a href="mypage.php" class="nav-item">
-      <img src="img/icon-8.svg" alt="マイページ">
-      <span>マイページ</span>
-    </a>
-    <a href="cart-list.php" class="nav-item">
-      <img src="img/icon-8.svg" alt="カート">
-      <span>カート</span>
-    </a>
-    <a href="listing.php" class="nav-item">
-      <img src="img/icon-8.svg" alt="出品">
-      <span>出品</span>
-    </a>
-  </nav>
-
+      <div class="nav-item">
+        <a href="mainpage.php">
+          <img src="img/click_scam.jpg" alt="メインページ" />
+        </a>
+        <span>メインページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="mypage.php">
+          <img src="img/click_scam.jpg" alt="マイページ" />
+        </a>
+        <span>マイページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="cart-list.php">
+          <img src="img/click_scam.jpg" alt="カート" />
+        </a>
+        <span>カート</span>
+      </div>
+      <div class="nav-item">
+        <a href="listing.php">
+          <img src="img/click_scam.jpg" alt="出品" />
+        </a>
+        <span>出品</span>
+      </div>
+    </nav>
+    
   <main class="content">
     <!-- アプリバー -->
     <header class="app-bar">
