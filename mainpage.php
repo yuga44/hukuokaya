@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ふくおかやメインページ</title>
     <link rel="stylesheet" href="css/mainpage.css" />
+
   </head>
 
   <body>
