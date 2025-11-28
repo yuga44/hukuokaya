@@ -114,7 +114,7 @@ try {
     <div><?= htmlspecialchars($user['address']) ?></div>
   </div>
 
-  <button class="account-info-button">アカウント設定</button>
+  <button class="account-info-button"><a href="account-edit.php">アカウント設定</button>
 
   <script>
     const showBtn = document.getElementById('show-pass');
