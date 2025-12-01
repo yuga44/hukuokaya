@@ -1,3 +1,50 @@
+<?php
+require 'db-connect.php';
+
+// ▼ おすすめ商品（buy_flag が 0 = 未購入商品）
+$sql = $pdo->query("
+    SELECT product_id, product_name, price, image
+    FROM listing_product
+    WHERE buy_flag = 0
+    ORDER BY product_id DESC
+    LIMIT 3
+");
+$recommend = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+
+// ▼ 過去購入商品（purchase_history が無いのでコメントアウト）
+// session_start();
+// $past_items = [];
+// if (isset($_SESSION['member_id'])) {
+//     $member_id = $_SESSION['member_id'];
+
+//     $sql2 = $pdo->prepare("
+//         SELECT lp.product_id, lp.product_name, lp.price, lp.image
+//         FROM purchase_history ph
+//         JOIN listing_product lp ON ph.product_id = lp.product_id
+//         WHERE ph.member_id = ?
+//         ORDER BY ph.purchase_date DESC
+//         LIMIT 3
+//     ");
+//     $sql2->execute([$member_id]);
+//     $past_items = $sql2->fetchAll(PDO::FETCH_ASSOC);
+// }
+
+
+// ▼ 人気カテゴリ TOP3（閲覧数集計）
+$sql3 = $pdo->query("
+    SELECT p.category, COUNT(*) AS views
+    FROM product_view v
+    JOIN listing_product p ON v.product_id = p.product_id
+    WHERE v.viewed_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    GROUP BY p.category
+    ORDER BY views DESC
+    LIMIT 3
+");
+$popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -30,7 +77,7 @@
         </a>
       </div>
       <div class="nav-item">
-        <a href="account-info.php">
+        <a href="mypage.php">
         <img src="img/icon-8.svg" alt="マイページ" />
         <span>マイページ</span>
         </a>
@@ -63,9 +110,12 @@
           <span>→</span>
         </div>
         <div class="items">
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
+          <?php foreach ($popular_tags as $tag): ?>
+            <div class="item-card">
+              <img src="img/click_scam.jpg" alt="">
+              <?= htmlspecialchars($tag['category']) ?>
+            </div>
+          <?php endforeach; ?>
         </div>
       </section>
 
@@ -76,10 +126,17 @@
           <span>→</span>
         </div>
         <div class="items">
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
+      <?php foreach ($recommend as $item): ?>
+        <div class="item-card">
+          <a href="product-detail.php?product_id=<?= $item['product_id'] ?>">
+            <img src="<?= htmlspecialchars($item['image']) ?>" alt="商品画像" />
+            <?= htmlspecialchars($item['product_name']) ?><br>
+            ￥<?= number_format($item['price']) ?>
+          </a>
         </div>
+<?php endforeach; ?>
+</div>
+
       </section>
 
       <!-- 過去に購入した商品 -->
@@ -89,9 +146,21 @@
           <span>→</span>
         </div>
         <div class="items">
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
+          <?php if (count($past_items) === 0): ?>
+
+            <p>購入履歴がありません。</p>
+
+          <?php else: ?>
+            <?php foreach ($past_items as $item): ?>
+              <div class="item-card">
+                <a href="product-detail.php?product_id=<?= $item['product_id'] ?>">
+                  <img src="<?= htmlspecialchars($item['image']) ?>" alt="商品画像" />
+                  <?= htmlspecialchars($item['product_name']) ?><br>
+                  ￥<?= number_format($item['price']) ?>
+                </a>
+              </div>
+            <?php endforeach; ?>
+          <?php endif; ?>
         </div>
       </section>
     </div>
