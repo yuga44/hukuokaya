@@ -7,28 +7,27 @@ $sql = $pdo->query("
     FROM listing_product
     WHERE buy_flag = 0
     ORDER BY product_id DESC
-    LIMIT 3
 ");
 $recommend = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
 // ▼ 過去購入商品（purchase_history が無いのでコメントアウト）
-// session_start();
-// $past_items = [];
-// if (isset($_SESSION['member_id'])) {
-//     $member_id = $_SESSION['member_id'];
+ session_start();
+ $past_items = [];
+ if (isset($_SESSION['member_id'])) {
+     $member_id = $_SESSION['member_id'];
 
-//     $sql2 = $pdo->prepare("
-//         SELECT lp.product_id, lp.product_name, lp.price, lp.image
-//         FROM purchase_history ph
-//         JOIN listing_product lp ON ph.product_id = lp.product_id
-//         WHERE ph.member_id = ?
-//         ORDER BY ph.purchase_date DESC
-//         LIMIT 3
-//     ");
-//     $sql2->execute([$member_id]);
-//     $past_items = $sql2->fetchAll(PDO::FETCH_ASSOC);
-// }
+     $sql2 = $pdo->prepare("
+         SELECT lp.product_id, lp.product_name, lp.price, lp.image
+         FROM purchase_history ph
+         JOIN listing_product lp ON ph.product_id = lp.product_id
+         WHERE ph.member_id = ?
+         ORDER BY ph.purchase_date DESC
+         LIMIT 3
+     ");
+     $sql2->execute([$member_id]);
+     $past_items = $sql2->fetchAll(PDO::FETCH_ASSOC);
+ }
 
 
 // ▼ 人気カテゴリ TOP3（閲覧数集計）
@@ -39,7 +38,6 @@ $sql3 = $pdo->query("
     WHERE v.viewed_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
     GROUP BY p.category
     ORDER BY views DESC
-    LIMIT 3
 ");
 $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
 
@@ -53,6 +51,45 @@ $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
     <title>ふくおかやメインページ</title>
     <link rel="stylesheet" href="css/mainpage.css" />
   </head>
+
+  <script>
+  function scrollItems(direction, btn) {
+    try {
+      // btn が来なければフォールバックで最初の .items を使う
+      let container = null;
+
+      if (btn && btn.closest) {
+        const section = btn.closest('.section');
+        if (section) container = section.querySelector('.items');
+      }
+
+      if (!container) {
+        container = document.querySelector('.items'); // フォールバック
+      }
+
+      if (!container) {
+        console.warn('scroll target (.items) not found');
+        return;
+      }
+
+      // カード幅を実測してスクロール量を決める（gap を考慮）
+      const card = container.querySelector('.item-card');
+      const style = getComputedStyle(container);
+      const gap = parseFloat(style.gap) || parseFloat(style.columnGap) || 16;
+      const cardWidth = card ? Math.round(card.getBoundingClientRect().width + gap) : 160;
+
+      const scrollAmount = cardWidth * 1.5 * (direction < 0 ? -1 : 1);
+
+      container.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    } catch (e) {
+      console.error('scrollItems error:', e);
+    }
+  }
+</script>
+
 
   <body>
     <!-- アプリバー -->
@@ -98,16 +135,15 @@ $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- メインコンテンツ -->
     <div class="content">
-      <!-- バナー -->
-      <div class="banner">
-        <img src="img/test.png" alt="バナー" />
-      </div>
 
       <!-- 人気のタグ一覧 -->
       <section class="section">
         <div class="section-header">
-          <div class="title">人気のタグ一覧</div>
-          <span>→</span>
+          <div class="title">タグ一覧</div>
+          <div class="arrow-buttons">
+            <button class="arrow-btn left" onclick="scrollItems(-1, this)">←</button>
+            <button class="arrow-btn right" onclick="scrollItems(1, this)">→</button>
+          </div>
         </div>
         <div class="items">
           <?php foreach ($popular_tags as $tag): ?>
@@ -123,7 +159,10 @@ $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
       <section class="section">
         <div class="section-header">
           <div class="title">おすすめ商品</div>
-          <span>→</span>
+          <div class="arrow-buttons">
+            <button class="arrow-btn left" onclick="scrollItems(-1, this)">←</button>
+            <button class="arrow-btn right" onclick="scrollItems(1, this)">→</button>
+          </div>
         </div>
         <div class="items">
       <?php foreach ($recommend as $item): ?>
@@ -143,7 +182,10 @@ $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
       <section class="section">
         <div class="section-header">
           <div class="title">過去に購入した商品</div>
-          <span>→</span>
+          <div class="arrow-buttons">
+            <button class="arrow-btn left" onclick="scrollItems(-1, this)">←</button>
+            <button class="arrow-btn right" onclick="scrollItems(1, this)">→</button>
+          </div>
         </div>
         <div class="items">
           <?php if (count($past_items) === 0): ?>
