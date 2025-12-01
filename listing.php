@@ -73,7 +73,7 @@ if (!isset($_SESSION['member_id'])) {
                       </option>
                     <?php endforeach; ?>
                 </select>
-                <input class="input" type="number" name="price" placeholder="￥ 値段を入力">
+                <input class="input" type="number" name="price" min="0" placeholder="￥ 値段を入力">
                 <textarea name="description" placeholder="商品の説明"></textarea>
                 <button type="submit" class="submit">出品する</button>
             </form>
