@@ -72,7 +72,7 @@ if (!$product) {
     <div class="content">
         <form action="update-listing.php" method="post" enctype="multipart/form-data">
           <!-- 画像（更新しない場合は空） -->
-           <img src="<?= htmlspecialchars($product['image']) ?>" alt="商品画像">
+           <img src="uploads/<?= htmlspecialchars($product['image']) ?>" alt="商品画像">
             <input type="file" name="image">
 
             <!-- 商品ID -->
@@ -95,7 +95,7 @@ if (!$product) {
             </select>
 
             <!-- 値段 -->
-            <input class="input" type="number" name="price" placeholder="￥ 値段を入力"
+            <input class="input" type="number" name="price" min="0" placeholder="￥ 値段を入力"
                    value="<?= htmlspecialchars($product['price']) ?>" required>
 
             <!-- 商品説明 -->
