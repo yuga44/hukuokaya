@@ -1,6 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
- 
+
 if (!isset($_SESSION['member_id'])) {
     // ログインしていなければリダイレクト
     header('Location: Login.php?error=not_logged_in');
@@ -10,20 +12,13 @@ if (!isset($_SESSION['member_id'])) {
 
 <?php
     // --- DB接続 ---
-    $dsn = 'mysql:host=localhost;dbname=;charset=utf8';
-    $user = '';
-    $pass = '';
-
-    try {
-      $pdo = new PDO($dsn, $user, $pass);
-    } catch (PDOException $e) {
-      exit('データベースに接続できません: ' . $e->getMessage());
-    }
+    require_once 'db-connect.php';
 
     // --- 会員ID ---
-    $member_id = 1; // テスト用。実際は $_SESSION などで取得
+    $member_id = $_SESSION['member_id']; // セッションから会員IDを取得
 
     // --- 購入履歴を取得 ---
+    // detailテーブルが空のため、listing_productテーブルの buy_id をキーとして直接結合するように変更。
     $sql = "
     SELECT 
       p.product_name,
@@ -32,8 +27,7 @@ if (!isset($_SESSION['member_id'])) {
       b.date AS purchase_date,
       m.address
     FROM buy b
-    JOIN detail d ON b.buy_id = d.buy_id
-    JOIN product p ON d.product_id = p.product_id
+    JOIN listing_product p ON b.buy_id = p.buy_id  -- 修正: buy_idで直接結合
     JOIN member m ON b.member_id = m.member_id
     WHERE b.member_id = :member_id
     ORDER BY b.date DESC;
@@ -41,7 +35,22 @@ if (!isset($_SESSION['member_id'])) {
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':member_id', $member_id, PDO::PARAM_INT);
-    $stmt->execute();
+    
+    // --- ここから追加 ---
+    // エラーハンドリングはそのまま残します。
+    if (!$stmt->execute()) {
+        $errorInfo = $stmt->errorInfo();
+        // 開発環境でのみ、エラー情報を出力する
+        echo "<h2>SQL実行エラーが発生しました</h2>";
+        // SQLSTATE: SQLの標準エラーコード
+        echo "<p>SQLSTATE: " . htmlspecialchars($errorInfo[0]) . "</p>"; 
+        // Driver-specific error code: データベース固有のエラーコード (MySQLなら1000番台など)
+        echo "<p>DBエラーコード: " . htmlspecialchars($errorInfo[1]) . "</p>"; 
+        // Error message: 最も重要な情報。エラーの詳細な説明
+        echo "<p>エラーメッセージ: " . htmlspecialchars($errorInfo[2]) . "</p>"; 
+        exit;
+    }
+
     $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -50,31 +59,37 @@ if (!isset($_SESSION['member_id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>購入履歴</title>
-  <link rel="stylesheet" href="cart-list.css">
+  <link rel="stylesheet" href="css/cart-list.css"> 
 </head>
 <body>
-  <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
-    <div class="nav-item">
-      <img src="img/icon-cart.svg" alt="カート">
-      <span>カート</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-home.svg" alt="メインページ">
-      <span>メインページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-user.svg" alt="マイページ">
-      <span>マイページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-upload.svg" alt="出品">
-      <span>出品</span>
-    </div>
-  </nav>
+      <div class="nav-item">
+        <a href="mainpage.php">
+          <img src="img/click_scam.jpg" alt="メインページ" />
+        </a>
+        <span>メインページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="mypage.php">
+          <img src="img/click_scam.jpg" alt="マイページ" />
+        </a>
+        <span>マイページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="cart-list.php">
+          <img src="img/click_scam.jpg" alt="カート" />
+        </a>
+        <span>カート</span>
+      </div>
+      <div class="nav-item">
+        <a href="listing.php">
+          <img src="img/click_scam.jpg" alt="出品" />
+        </a>
+        <span>出品</span>
+      </div>
+    </nav>
 
-  <!-- タイトル・ボタン -->
-  <button class="back"><a href="./mypage.php"←</button>
+  <button class="back"><a href="./mypage.php">←</a></button>
   <h1>購入履歴</h1>
 
   <div class="content">

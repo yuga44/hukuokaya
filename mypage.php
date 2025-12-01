@@ -4,28 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>マイページ</title>
-  <link rel="stylesheet" href="mypage.css">
+  <link rel="stylesheet" href="css/mypage.css">
 </head>
 <body>
   <!-- ナビゲーションバー -->
   <nav class="navigation-rail">
-    <div class="nav-item">
-      <img src="img/icon-cart.svg" alt="カート">
-      <span>カート</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-home.svg" alt="メインページ">
-      <span>メインページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-user.svg" alt="マイページ">
-      <span>マイページ</span>
-    </div>
-    <div class="nav-item">
-      <img src="img/icon-upload.svg" alt="出品">
-      <span>出品</span>
-    </div>
-  </nav>
+      <div class="nav-item">
+        <a href="mainpage.php">
+          <img src="img/click_scam.jpg" alt="メインページ" />
+        </a>
+        <span>メインページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="mypage.php">
+          <img src="img/click_scam.jpg" alt="マイページ" />
+        </a>
+        <span>マイページ</span>
+      </div>
+      <div class="nav-item">
+        <a href="cart-list.php">
+          <img src="img/click_scam.jpg" alt="カート" />
+        </a>
+        <span>カート</span>
+      </div>
+      <div class="nav-item">
+        <a href="listing.php">
+          <img src="img/click_scam.jpg" alt="出品" />
+        </a>
+        <span>出品</span>
+      </div>
+    </nav>
 
   <!-- タイトル・ボタン -->
   <a href="mainpage.php" class="back">←</a>
@@ -48,7 +56,7 @@
       <a href="listing.php">出品</a>
     </div>
     <div class="mypage-item">
-      <a href="listing-completed.php">出品履歴</a>
+      <a href="listing-completed.php">出品一覧</a>
     </div>
   </div>
 </body>
