@@ -22,7 +22,7 @@ body {
   margin-top: 0;
   padding: 16px;
   border-bottom: 2px solid #f4cce5;
-  background-color: #a3b9d7;
+  background-color: #ffffff;
   box-sizing: border-box;
 }
 
@@ -80,7 +80,7 @@ body {
   width: 93%;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #bee3e1;
+  background-color: #ffffff;
 }
 
 input[name="search_box"] {
@@ -92,7 +92,7 @@ input[name="search_box"] {
 }
 
 .enter {
-  background-color: aquamarine;
+  background-color: #ffffff;
   height: 50px;
   width: 80px;
   border-radius: 3px;
@@ -189,7 +189,7 @@ div.card {
 .buy-again {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: #e0f7fa;
+  background-color: #ffffff;
   border: 1px solid #aaa;
   border-radius: 6px;
   cursor: pointer;
@@ -197,7 +197,7 @@ div.card {
 }
 
 .buy-again:hover {
-  background-color: #b2ebf2;
+  background-color: #ffffff;
 }
 
 /* ==========
@@ -206,7 +206,7 @@ div.card {
 .footer {
   display: flex;
   box-sizing: border-box;
-  background-color: #a3b9d7;
+  background-color: #ffffff;
   padding: 16px;
   margin-bottom: 0;
   text-align: center;
