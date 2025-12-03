@@ -23,10 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $member_id = $_SESSION['member_id'];
 
-// 出品情報取得
+// 出品情報を取得
 $sql = $pdo->prepare('SELECT * FROM listing_product WHERE member_id = ? AND buy_flag = 0');
 $sql->execute([$member_id]);
 $listings = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+// ★★★ 追加：あなたのサイトの絶対パス ★★★
+$BASE_URL = "https://aso2401004.perma.jp/2025/hukuokaya/";
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -65,9 +68,7 @@ $listings = $sql->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </nav>
 
-<a href="mypage.php">
-  <button class="back">←</button>
-</a>
+<a href="mypage.php"><button class="back">←</button></a>
 <h1>出品一覧</h1>
 
 <div class="content">
@@ -82,12 +83,15 @@ if (count($listings) === 0) {
 
     foreach ($listings as $row) {
 
-        // ★★★ここで画像パスを整形する（追加部分）★★★
+        // ======================================
+        // 画像URL補正（ここを修正した！）
+        // ======================================
         $image_url = htmlspecialchars($row['image']);
 
-        // DB に C:\path など絶対パスが入っている場合でも正常化
-        if (!preg_match('/^uploads\//', $image_url)) {
-            $image_url = 'uploads/' . basename($image_url);
+        if (preg_match('/^uploads\//', $image_url)) {
+            $image_url = $BASE_URL . $image_url;
+        } else {
+            $image_url = $BASE_URL . "uploads/" . basename($image_url);
         }
 
         echo '<a href="listing-edit.php?product_id=' . htmlspecialchars($row['product_id']) . '" class="item-card">';

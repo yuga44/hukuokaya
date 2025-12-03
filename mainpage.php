@@ -31,7 +31,7 @@
         </a>
       </div>
       <div class="nav-item">
-        <a href="account-info.php">
+        <a href="mypage.php">
         <img src="img/icon-8.svg" alt="マイページ" />
         <span>マイページ</span>
         </a>
