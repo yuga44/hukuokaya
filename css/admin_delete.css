@@ -1,0 +1,158 @@
+/* ==============================
+   テンプレ側（サイドバー）
+============================== */
+
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #555;
+}
+
+.navigation-rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 100vh;
+  background-color: #f4e9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-item img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 5px;
+}
+
+.nav-item span {
+  font-size: 12px;
+  color: #444;
+}
+
+.nav-item:hover {
+  opacity: 0.7;
+}
+
+.back,
+.cancel {
+  position: absolute;
+  top: 40px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #777;
+}
+
+.back { left: 120px; }
+.cancel { right: 40px; }
+
+.back:hover,
+.cancel:hover {
+  background-color: #d8d8d8;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 500;
+  margin-left: 160px;
+  margin-top: 40px;
+  color: #444;
+}
+
+.content {
+  margin-left: 100px;
+  padding: 5px 20px;
+}
+
+/* ==============================
+   商品管理画面 CSS
+============================== */
+
+.section-title {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.search-area {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 25px 0;
+  flex-wrap: wrap;
+}
+
+.search-area input,
+.search-area select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.search-btn {
+  padding: 8px 16px;
+  background: #7c4dff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  opacity: 0.8;
+}
+
+.product-card {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  margin-bottom: 18px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  align-items: center;
+}
+
+.product-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-info {
+  flex-grow: 1;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.delete-btn {
+  background: #ff4b4b;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  opacity: 0.8;
+}
