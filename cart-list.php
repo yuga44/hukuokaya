@@ -29,30 +29,30 @@ $cart_items = $sql->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="css/cart-list.css">
 
   <!-- ナビゲーションバー -->
-  <nav class="navigation-rail">
+    <nav class="navigation-rail">
       <div class="nav-item">
         <a href="mainpage.php">
-          <img src="img/click_scam.jpg" alt="メインページ" />
-        </a>
+        <img src="img/icon-3.svg" alt="メインページ" />
         <span>メインページ</span>
+        </a>
       </div>
       <div class="nav-item">
-        <a href="mypage.php">
-          <img src="img/click_scam.jpg" alt="マイページ" />
-        </a>
+        <a href="account-info.php">
+        <img src="img/icon-8.svg" alt="マイページ" />
         <span>マイページ</span>
+        </a>
       </div>
       <div class="nav-item">
         <a href="cart-list.php">
-          <img src="img/click_scam.jpg" alt="カート" />
-        </a>
+        <img src="img/icon-8.svg" alt="カート" />
         <span>カート</span>
+        </a>
       </div>
       <div class="nav-item">
         <a href="listing.php">
-          <img src="img/click_scam.jpg" alt="出品" />
-        </a>
+        <img src="img/icon-8.svg" alt="出品" />
         <span>出品</span>
+        </a>
       </div>
     </nav>
 
@@ -82,6 +82,11 @@ $cart_items = $sql->fetchAll(PDO::FETCH_ASSOC);
           <form action="Purchase-screen" method="post">
               <input type="hidden" name="product_id" value="<?= $item['product_id'] ?>">
               <button>購入</button>
+          </form>
+
+          <form action="remove_cart.php" method="post" onsubmit="return confirm('本当に削除しますか？');">
+              <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
+              <button>削除</button>
           </form>
         </div>
       </div>
