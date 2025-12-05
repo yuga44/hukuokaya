@@ -1,4 +1,4 @@
-/* ==========
+/* ==========    
    基本設定
 ========== */
 body {
@@ -9,7 +9,8 @@ body {
   background-color: #ffffff;
   color: #1d1b20;
 }
-/* ==========
+
+/* ==========    
    アプリバー
 ========== */
 .app-bar {
@@ -21,7 +22,7 @@ body {
   margin-top: 0;
   padding: 16px;
   border-bottom: 2px solid #f4cce5;
-  background-color: #a3b9d7;
+  background-color: #ffffff;
   box-sizing: border-box;
 }
 
@@ -31,11 +32,11 @@ body {
 }
 
 .app-bar .trailing-icons img {
-  width: 24px;            /* アイコンサイズ調整 */
+  width: 24px;
   height: auto;
 }
 
-/* ==========
+/* ==========    
    左ナビゲーションバー
 ========== */
 .navigation-rail {
@@ -68,7 +69,7 @@ body {
   transform: scale(1.1);
 }
 
-/* ==========
+/* ==========    
    メインコンテンツ
 ========== */
 .content {
@@ -77,18 +78,140 @@ body {
   align-items: center;
   justify-content: center;
   width: 93%;
-  height: 100vh;
+  min-height: 100vh;
   box-sizing: border-box;
-  background-color: #bee3e1;
+  background-color: #ffffff;
 }
 
-/* ==========
+input[name="search_box"] {
+  width: 60%;
+  height: 50px;
+  border-radius: 3px;
+  border: none;
+}
+
+.enter {
+  background-color: #ffffff;
+  height: 50px;
+  width: 80px;
+  border-radius: 3px;
+  border: none;
+}
+
+.category {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 10px;
+  width: 120px;
+  height: 50px;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+/* ==========    
+   商品カードレイアウト（ここを重点改修）
+========== */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px;
+
+  /* ★ カードの高さそろえ */
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+/* カード本体 */
+div.card {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  /* ★ 高さ均等化の仕組み */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 画像部分（高さ固定） */
+.card-img {
+  width: 100%;
+  height: 180px;         /* ★画像枠を固定して揃える */
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* ★サイズが違っても綺麗にトリミング */
+  border-radius: 6px;
+}
+
+/* 商品情報 */
+.card-info {
+  flex: 1 1 auto;        /* ★カード中身を均等伸縮 */
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.card-info .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.info-row .label {
+  color: #555;
+  font-weight: bold;
+  margin-right: 8px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.info-row .value {
+  color: #333;
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* 詳細ボタン（下部固定） */
+.buy-again {
+  margin-top: auto;          /* ★下に固定されることで高さが揃う */
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.buy-again:hover {
+  background-color: #ffffff;
+}
+
+/* ==========    
    フッター
 ========== */
 .footer {
   display: flex;
   box-sizing: border-box;
-  background-color: #a3b9d7;
+  background-color: #ffffff;
   padding: 16px;
   margin-bottom: 0;
   text-align: center;
@@ -106,13 +229,10 @@ body {
   gap: 16px;
 }
 
-/* ==========
+/* ==========    
    レスポンシブ対応
 ========== */
 @media (max-width: 768px) {
-  body {
-    flex-direction: column;
-  }
 
   .navigation-rail {
     flex-direction: row;
@@ -124,5 +244,9 @@ body {
 
   .content {
     padding: 16px;
+  }
+
+  .card-container {
+    grid-template-columns: 1fr;
   }
 }
