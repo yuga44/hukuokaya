@@ -100,9 +100,24 @@ $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
         <a href="search.php">
           <img src="img/click_scam.jpg" alt="検索" />検索
         </a>
-        <a href="Login.php">
-          <img src="img/icon-7.svg" alt="ログイン" />
-        </a>
+        <?php if (isset($_SESSION['member_id'])): ?>
+
+          <!-- ログイン中 -->
+          <a href="logout.php" onclick="return confirm('ログアウトしますがよろしいですか？');">
+            <img src="img/icon-7.svg" alt="ログアウト" />
+            ログアウト
+          </a>
+
+        <?php else: ?>
+
+          <!-- 未ログイン -->
+          <a href="Login.php">
+            <img src="img/icon-7.svg" alt="ログイン" />
+            ログイン
+          </a>
+
+        <?php endif; ?>
+
       </div>
     </header>
 
