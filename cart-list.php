@@ -83,6 +83,11 @@ $cart_items = $sql->fetchAll(PDO::FETCH_ASSOC);
               <input type="hidden" name="product_id" value="<?= $item['product_id'] ?>">
               <button>購入</button>
           </form>
+
+          <form action="remove_cart.php" method="post" onsubmit="return confirm('本当に削除しますか？');">
+              <input type="hidden" name="cart_id" value="<?= $item['cart_id'] ?>">
+              <button>削除</button>
+          </form>
         </div>
       </div>
     <?php endforeach; ?>

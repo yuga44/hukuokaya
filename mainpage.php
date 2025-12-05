@@ -1,3 +1,48 @@
+<?php
+require 'db-connect.php';
+
+// ▼ おすすめ商品（buy_flag が 0 = 未購入商品）
+$sql = $pdo->query("
+    SELECT product_id, product_name, price, image
+    FROM listing_product
+    WHERE buy_flag = 0
+    ORDER BY product_id DESC
+");
+$recommend = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+
+// ▼ 過去購入商品（purchase_history が無いのでコメントアウト）
+ session_start();
+ $past_items = [];
+ if (isset($_SESSION['member_id'])) {
+     $member_id = $_SESSION['member_id'];
+
+     $sql2 = $pdo->prepare("
+         SELECT lp.product_id, lp.product_name, lp.price, lp.image
+         FROM purchase_history ph
+         JOIN listing_product lp ON ph.product_id = lp.product_id
+         WHERE ph.member_id = ?
+         ORDER BY ph.purchase_date DESC
+         LIMIT 3
+     ");
+     $sql2->execute([$member_id]);
+     $past_items = $sql2->fetchAll(PDO::FETCH_ASSOC);
+ }
+
+
+// ▼ 人気カテゴリ TOP3（閲覧数集計）
+$sql3 = $pdo->query("
+    SELECT p.category, COUNT(*) AS views
+    FROM product_view v
+    JOIN listing_product p ON v.product_id = p.product_id
+    WHERE v.viewed_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    GROUP BY p.category
+    ORDER BY views DESC
+");
+$popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -7,6 +52,45 @@
     <link rel="stylesheet" href="css/mainpage.css" />
 
   </head>
+
+  <script>
+  function scrollItems(direction, btn) {
+    try {
+      // btn が来なければフォールバックで最初の .items を使う
+      let container = null;
+
+      if (btn && btn.closest) {
+        const section = btn.closest('.section');
+        if (section) container = section.querySelector('.items');
+      }
+
+      if (!container) {
+        container = document.querySelector('.items'); // フォールバック
+      }
+
+      if (!container) {
+        console.warn('scroll target (.items) not found');
+        return;
+      }
+
+      // カード幅を実測してスクロール量を決める（gap を考慮）
+      const card = container.querySelector('.item-card');
+      const style = getComputedStyle(container);
+      const gap = parseFloat(style.gap) || parseFloat(style.columnGap) || 16;
+      const cardWidth = card ? Math.round(card.getBoundingClientRect().width + gap) : 160;
+
+      const scrollAmount = cardWidth * 1.5 * (direction < 0 ? -1 : 1);
+
+      container.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    } catch (e) {
+      console.error('scrollItems error:', e);
+    }
+  }
+</script>
+
 
   <body>
     <!-- アプリバー -->
@@ -51,21 +135,23 @@
 
     <!-- メインコンテンツ -->
     <div class="content">
-      <!-- バナー -->
-      <div class="banner">
-        <img src="img/test.png" alt="バナー" />
-      </div>
 
       <!-- 人気のタグ一覧 -->
       <section class="section">
         <div class="section-header">
-          <div class="title">人気のタグ一覧</div>
-          <span>→</span>
+          <div class="title">タグ一覧</div>
+          <div class="arrow-buttons">
+            <button class="arrow-btn left" onclick="scrollItems(-1, this)">←</button>
+            <button class="arrow-btn right" onclick="scrollItems(1, this)">→</button>
+          </div>
         </div>
         <div class="items">
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
+          <?php foreach ($popular_tags as $tag): ?>
+            <div class="item-card">
+              <img src="img/click_scam.jpg" alt="">
+              <?= htmlspecialchars($tag['category']) ?>
+            </div>
+          <?php endforeach; ?>
         </div>
       </section>
 
@@ -73,25 +159,50 @@
       <section class="section">
         <div class="section-header">
           <div class="title">おすすめ商品</div>
-          <span>→</span>
+          <div class="arrow-buttons">
+            <button class="arrow-btn left" onclick="scrollItems(-1, this)">←</button>
+            <button class="arrow-btn right" onclick="scrollItems(1, this)">→</button>
+          </div>
         </div>
         <div class="items">
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
+      <?php foreach ($recommend as $item): ?>
+        <div class="item-card">
+          <a href="product-detail.php?product_id=<?= $item['product_id'] ?>">
+            <img src="<?= htmlspecialchars($item['image']) ?>" alt="商品画像" />
+            <?= htmlspecialchars($item['product_name']) ?><br>
+            ￥<?= number_format($item['price']) ?>
+          </a>
         </div>
+<?php endforeach; ?>
+</div>
+
       </section>
 
       <!-- 過去に購入した商品 -->
       <section class="section">
         <div class="section-header">
           <div class="title">過去に購入した商品</div>
-          <span>→</span>
+          <div class="arrow-buttons">
+            <button class="arrow-btn left" onclick="scrollItems(-1, this)">←</button>
+            <button class="arrow-btn right" onclick="scrollItems(1, this)">→</button>
+          </div>
         </div>
         <div class="items">
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
-          <div class="item-card"><img src="img/click_scam.jpg" alt="" />Label</div>
+          <?php if (count($past_items) === 0): ?>
+
+            <p>購入履歴がありません。</p>
+
+          <?php else: ?>
+            <?php foreach ($past_items as $item): ?>
+              <div class="item-card">
+                <a href="product-detail.php?product_id=<?= $item['product_id'] ?>">
+                  <img src="<?= htmlspecialchars($item['image']) ?>" alt="商品画像" />
+                  <?= htmlspecialchars($item['product_name']) ?><br>
+                  ￥<?= number_format($item['price']) ?>
+                </a>
+              </div>
+            <?php endforeach; ?>
+          <?php endif; ?>
         </div>
       </section>
     </div>
