@@ -27,6 +27,7 @@ $cart_items = $sql->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <link rel="stylesheet" href="css/cart-list.css">
+    <link rel="stylesheet" href="css/template.css">
 
   <!-- ナビゲーションバー -->
     <nav class="navigation-rail">
