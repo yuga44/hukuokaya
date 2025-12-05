@@ -21,7 +21,6 @@
         </a>
       </div>
     </header>
-
     <!-- ナビゲーションバー -->
     <nav class="navigation-rail">
       <div class="nav-item">

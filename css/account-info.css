@@ -100,3 +100,15 @@ h1 {
 .account-info-button:hover {
 	background-color: #5b5b5b;
 }
+
+.account-info-button {
+    display: block;  /* ← これを入れると縦並びが保証される */
+    width: 90%;      /* ボタン幅を揃えたい場合 */
+    text-align: center;
+    color: #ffffff;
+    background-color: #4f4f4f;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none; /* aタグの場合の下線消し */
+}
