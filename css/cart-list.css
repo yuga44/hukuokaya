@@ -44,7 +44,7 @@ body {
 
 .back:hover,
 .cancel:hover {
-  background-color: #d8d8d8;
+  background-color: #ffffff;
 }
 
 /* ヘッダーのタイトル */
@@ -168,4 +168,13 @@ h1 {
 
 .cart-info button:hover {
   background-color: #eee;
+}
+
+.buy-all {
+  position: sticky;
+  bottom: 16px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: block;
 }
