@@ -1,113 +1,106 @@
 <?php
 session_start();
-require 'ribbon.php';
- 
+require 'ribbon.php'; // ← ナビ + page-wrapper開始
+
 if (!isset($_SESSION['member_id'])) {
-    // ログインしていなければリダイレクト
     header('Location: Login.php?error=not_logged_in');
     exit;
 }
 
-// 外部ファイルからデータベース接続情報とPDO接続を取得
-require_once 'db-connect.php'; 
-
+require_once 'db-connect.php';
 
 try {
-    // db-connect.php で $pdo が定義されていることを利用する
-    // $pdo = new PDO(...) の部分は db-connect.php が実行するため不要
-
-    // ログイン中の会員IDを取得
     $member_id = $_SESSION['member_id'];
-    
-    // 会員情報テーブルからユーザー情報を取得
-    $stmt = $pdo->prepare(
-        "SELECT name, mailaddress, tel, password, address FROM member WHERE member_id = :member_id"
-    );
+
+    $stmt = $pdo->prepare("
+        SELECT name, mailaddress, tel, password, address
+        FROM member
+        WHERE member_id = :member_id
+    ");
     $stmt->execute([':member_id' => $member_id]);
     $user = $stmt->fetch();
 
-    // ユーザー情報が取得できなかった場合はエラーとして扱う
     if (!$user) {
-        // セッションをクリアしてログインページへリダイレクト
         session_destroy();
         header('Location: Login.php?error=user_not_found');
         exit;
     }
 
 } catch (PDOException $e) {
-    // クエリ実行エラー (db-connect.phpで接続エラーは捕捉済み)
     echo "データベースエラー: " . $e->getMessage();
     exit;
 }
-
-// ------------------------------------------------------------------
-// 【修正】ここまで
-// ------------------------------------------------------------------
-
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>テンプレートページ</title>
-  <link rel="stylesheet" href="css/account-info.css">
-</head>
-<body>   
-  <button class="back"><a href="./mypage.php">←</a></button>
-  <h1>アカウント情報</h1>
-  <div class="content"><div class="accountinfo-item">
-    <div>名前</div>
-    <div><?= htmlspecialchars($user['name']) ?></div>
-  </div>
+<!-- account-infoページ専用CSS -->
+<link rel="stylesheet" href="css/account-info.css">
 
-  <div class="accountinfo-item">
-    <div>メールアドレス</div>
-    <div><?= htmlspecialchars($user['mailaddress']) ?></div>
-  </div>
+<h1 class="page-title">アカウント情報</h1>
 
-  <div class="accountinfo-item">
-    <div>電話番号</div>
-    <div><?= htmlspecialchars($user['tel']) ?></div>
-  </div>
+<div class="content">
 
-  <div class="accountinfo-item">
-    <div>パスワード</div>
-    <div>
-      <span id="password-mask">********</span>
-      <span id="password-real" style="display:none;">
-        <?= htmlspecialchars($user['password']) ?>
-      </span>
-      <button id="show-pass" type="button" style="border:none;background:none;cursor:pointer;">👁</button>
+    <div class="accountinfo-item">
+        <div class="label">名前</div>
+        <div class="value"><?= htmlspecialchars($user['name']) ?></div>
     </div>
-  </div>
 
-  <div class="accountinfo-item">
-    <div>住所</div>
-    <div><?= htmlspecialchars($user['address']) ?></div>
-  </div>
+    <div class="accountinfo-item">
+        <div class="label">メールアドレス</div>
+        <div class="value"><?= htmlspecialchars($user['mailaddress']) ?></div>
+    </div>
 
-  <button class="account-info-button"><a href="account-edit.php">アカウント設定</button>
+    <div class="accountinfo-item">
+        <div class="label">電話番号</div>
+        <div class="value"><?= htmlspecialchars($user['tel']) ?></div>
+    </div>
 
-  <script>
-    const showBtn = document.getElementById('show-pass');
-    const passMask = document.getElementById('password-mask');
-    const passReal = document.getElementById('password-real');
+    <div class="accountinfo-item">
+        <div class="label">パスワード</div>
+        <div class="value">
+            <span id="password-mask">********</span>
+            <span id="password-real" class="real-password"><?= htmlspecialchars($user['password']) ?></span>
+            <button id="show-pass" class="eye-btn">
+                <i class="fa-solid fa-eye"></i>
+            </button>
+        </div>
+    </div>
 
-    // 👁 ボタンを押している間だけパスワード表示
-    showBtn.addEventListener('mousedown', () => {
-      passMask.style.display = 'none';
-      passReal.style.display = 'inline';
-    });
-    showBtn.addEventListener('mouseup', () => {
-      passMask.style.display = 'inline';
-      passReal.style.display = 'none';
-    });
-    // 指を外に出した場合も安全に戻す
-    showBtn.addEventListener('mouseleave', () => {
-      passMask.style.display = 'inline';
-      passReal.style.display = 'none';
-    });
-  </script>
+    <div class="accountinfo-item">
+        <div class="label">住所</div>
+        <div class="value"><?= htmlspecialchars($user['address']) ?></div>
+    </div>
+
+    <a href="account-edit.php" class="account-info-button">アカウント設定</a>
+
 </div>
+
+<script>
+const showBtn = document.getElementById('show-pass');
+const passMask = document.getElementById('password-mask');
+const passReal = document.getElementById('password-real');
+
+showBtn.addEventListener('mousedown', () => {
+    passMask.style.display = 'none';
+    passReal.style.display = 'inline';
+});
+
+showBtn.addEventListener('mouseup', () => {
+    passMask.style.display = 'inline';
+    passReal.style.display = 'none';
+});
+
+showBtn.addEventListener('mouseleave', () => {
+    passMask.style.display = 'inline';
+    passReal.style.display = 'none';
+});
+</script>
+
+<?php
+// ribbon.php の閉じタグを閉じる
+echo '
+    </div><!-- /page-content -->
+</div><!-- /page-wrapper -->
+</body>
+</html>
+';
+?>

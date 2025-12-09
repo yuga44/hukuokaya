@@ -1,114 +1,63 @@
-/* 全体設定 */
-body {
-  margin: 0;
-  height: 100vh;
-  font-family: "Noto Sans JP", sans-serif;
-  color: #555;
-}
-/* ナビゲーションレール */
-.navigation-rail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 70px;
-  height: 100vh;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 30px;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-}
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 25px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.nav-item img {
-  width: 32px;
-  height: 32px;
-  margin-bottom: 5px;
-}
-.nav-item span {
-  font-size: 12px;
-  color: #444;
-}
-.nav-item:hover {
-  opacity: 0.7;
-}
-/* 戻る・キャンセルボタン */
-.back,
-.cancel {
-  position: absolute;
-  top: 40px;
+.page-title {
   font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+/* 内容全体 */
+.content {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* 各項目を縦に揃える */
+.accountinfo-item {
+  display: block;
+  margin-bottom: 32px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ラベル */
+.label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 15px;
+}
+
+/* 値（パスワード含む） */
+.value {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+}
+
+/* パスワードの実体は非表示 */
+.real-password {
+  display: none;
+}
+
+/* パスワードアイコン */
+.eye-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: #777;
-}
-.back {
-  left: 120px;
-}
-.cancel {
-  right: 40px;
-}
-.back:hover{
-  background-color: #d8d8d8;
-}
-.cancel:hover{
-  background-color: #d8d8d8;
-}
-/* タイトル */
-h1 {
-  font-size: 28px;
-  font-weight: 500;
-  margin-left: 160px;
-  margin-top: 40px;
-  color: #444;
-}
-.content {
-  margin-left: 100px;
-  padding: 5px 5px;
-}
-/*-------------------------------------ここまでてんぷれ---------------------------------------*/
-
-.accountinfo-item {
-  display: flex;
-  align-items: center;
-  background-color: #ebebeb;
-  border-radius: 12px;
-  border: 1px solid #d8d8d8;
-  padding: 20px;
-  margin-top: 7px;
-  width: 90%;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
+  font-size: 18px;
 }
 
-.account-info-button{
-    color: #ffffff;
-    background-color: #4f4f4f;
-    margin-top: 15px;
-    padding:10px;
-    border-radius: 5px;
-}
-
-.account-info-button:hover {
-	background-color: #5b5b5b;
-}
-
+/* アカウント設定ボタン：かぶり完全防止 */
 .account-info-button {
-    display: block;  /* ← これを入れると縦並びが保証される */
-    width: 90%;      /* ボタン幅を揃えたい場合 */
-    text-align: center;
-    color: #ffffff;
-    background-color: #4f4f4f;
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none; /* aタグの場合の下線消し */
+  display: inline-block;
+  margin-top: 40px;
+  padding: 12px 20px;
+  background-color: #2b6cb0;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
 }
