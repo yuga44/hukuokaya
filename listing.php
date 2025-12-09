@@ -1,5 +1,7 @@
 <?php
 session_start();
+require 'db-connect.php';
+require 'ribbon.php';
 
 if (!isset($_SESSION['member_id'])) {
     // ログインしていなければリダイレクト
@@ -17,33 +19,6 @@ if (!isset($_SESSION['member_id'])) {
     <link rel="stylesheet" href="css/listing.css">
 </head>
 <body>
-    <!-- ナビゲーション -->
-    <nav class="navigation-rail">
-      <div class="nav-item">
-        <a href="mainpage.php">
-          <img src="img/click_scam.jpg" alt="メインページ" />
-        </a>
-        <span>メインページ</span>
-      </div>
-      <div class="nav-item">
-        <a href="mypage.php">
-          <img src="img/click_scam.jpg" alt="マイページ" />
-        </a>
-        <span>マイページ</span>
-      </div>
-      <div class="nav-item">
-        <a href="cart-list.php">
-          <img src="img/click_scam.jpg" alt="カート" />
-        </a>
-        <span>カート</span>
-      </div>
-      <div class="nav-item">
-        <a href="listing.php">
-          <img src="img/click_scam.jpg" alt="出品" />
-        </a>
-        <span>出品</span>
-      </div>
-    </nav>
 
     <section class="main">
         <!-- バナー -->

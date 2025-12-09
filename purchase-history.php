@@ -13,6 +13,7 @@ if (!isset($_SESSION['member_id'])) {
 <?php
     // --- DB接続 ---
     require_once 'db-connect.php';
+    require 'ribbon.php';
 
     // --- 会員ID ---
     $member_id = $_SESSION['member_id']; // セッションから会員IDを取得
@@ -62,32 +63,6 @@ if (!isset($_SESSION['member_id'])) {
   <link rel="stylesheet" href="css/cart-list.css"> 
 </head>
 <body>
-  <nav class="navigation-rail">
-      <div class="nav-item">
-        <a href="mainpage.php">
-          <img src="img/click_scam.jpg" alt="メインページ" />
-        </a>
-        <span>メインページ</span>
-      </div>
-      <div class="nav-item">
-        <a href="mypage.php">
-          <img src="img/click_scam.jpg" alt="マイページ" />
-        </a>
-        <span>マイページ</span>
-      </div>
-      <div class="nav-item">
-        <a href="cart-list.php">
-          <img src="img/click_scam.jpg" alt="カート" />
-        </a>
-        <span>カート</span>
-      </div>
-      <div class="nav-item">
-        <a href="listing.php">
-          <img src="img/click_scam.jpg" alt="出品" />
-        </a>
-        <span>出品</span>
-      </div>
-    </nav>
 
   <button class="back"><a href="./mypage.php">←</a></button>
   <h1>購入履歴</h1>

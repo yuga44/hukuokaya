@@ -1,6 +1,8 @@
 <?php
 require 'db-connect.php';
 session_start();
+require 'ribbon.php';
+
 
 // 未ログインなら止める
 if (!isset($_SESSION['member_id'])) {

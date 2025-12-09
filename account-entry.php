@@ -1,6 +1,7 @@
 <?php
 require 'db-connect.php';
 session_start();
+require 'ribbon.php';
 
 // フォーム送信時の処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
