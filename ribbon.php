@@ -33,9 +33,9 @@ echo '
         </div>
 
         <div class="nav-item">
-            <a href="account-info.php">
+            <a href="mypage.php">
                 <span class="icon"><i class="fa-solid fa-user"></i></span>
-                <span>マイぺーじ</span>
+                <span>マイページ</span>
             </a>
         </div>
 
