@@ -83,6 +83,11 @@ if (!$product) {
       <button class="cart-button">カートに追加</button>
     </form>
 
+    <form action="add-favorite.php" method="post" style="margin-top:10px;">
+      <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+      <button class="favorite-button">♡ お気に入り</button>
+    </form>
+
   </div>
 
 </body>
