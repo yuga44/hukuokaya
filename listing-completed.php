@@ -1,6 +1,7 @@
 <?php
 require 'db-connect.php';
 session_start();
+require 'ribbon.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $sql = $pdo->prepare('SELECT * FROM member WHERE email = ? AND password = ?');
@@ -40,33 +41,6 @@ $BASE_URL = "https://aso2401004.perma.jp/2025/hukuokaya/";
   <link rel="stylesheet" href="css/listing-completed.css">
 </head>
 <body>
-
-<nav class="navigation-rail">
-  <div class="nav-item">
-    <a href="mainpage.php">
-      <img src="img/click_scam.jpg" alt="メインページ">
-    </a>
-    <span>メインページ</span>
-  </div>
-  <div class="nav-item">
-    <a href="mypage.php">
-      <img src="img/click_scam.jpg" alt="マイページ">
-    </a>
-    <span>マイページ</span>
-  </div>
-  <div class="nav-item">
-    <a href="cart-list.php">
-      <img src="img/click_scam.jpg" alt="カート">
-    </a>
-    <span>カート</span>
-  </div>
-  <div class="nav-item">
-    <a href="listing.php">
-      <img src="img/click_scam.jpg" alt="出品">
-    </a>
-    <span>出品</span>
-  </div>
-</nav>
 
 <a href="mypage.php"><button class="back">←</button></a>
 <h1>出品一覧</h1>

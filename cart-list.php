@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'db-connect.php';
+require 'ribbon.php';
 
 // ログイン確認
 if (!isset($_SESSION['member_id'])) {
@@ -30,19 +31,6 @@ $cart_items = $sql->fetchAll(PDO::FETCH_ASSOC);
 <link rel="stylesheet" href="css/template.css">
 </head>
 <body>
-
-<!-- ナビゲーション -->
-<nav class="navigation-rail">
-  <div class="nav-item"><a href="mainpage.php">メインページ</a></div>
-  <div class="nav-item"><a href="mypage.php">マイページ</a></div>
-  <div class="nav-item"><a href="cart-list.php">カート</a></div>
-  <div class="nav-item"><a href="listing.php">出品</a></div>
-</nav>
-
-<a href="mainpage.php"><button class="back">←</button></a>
-<h1>カート</h1>
-
-<div class="content">
 
 <?php if (count($cart_items) === 0): ?>
 

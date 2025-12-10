@@ -1,5 +1,6 @@
 <?php
 require 'db-connect.php';
+require 'ribbon.php';
 
 // ▼ おすすめ商品（buy_flag が 0 = 未購入商品）
 $sql = $pdo->query("
@@ -119,35 +120,6 @@ $popular_tags = $sql3->fetchAll(PDO::FETCH_ASSOC);
 
       </div>
     </header>
-
-    <!-- ナビゲーションバー -->
-    <nav class="navigation-rail">
-      <div class="nav-item">
-        <a href="mainpage.php">
-        <img src="img/icon-3.svg" alt="メインページ" />
-        <span>メインページ</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="mypage.php">
-        <img src="img/icon-8.svg" alt="マイページ" />
-        <span>マイページ</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="cart-list.php">
-        <img src="img/icon-8.svg" alt="カート" />
-        <span>カート</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="listing.php">
-        <img src="img/icon-8.svg" alt="出品" />
-        <span>出品</span>
-        </a>
-      </div>
-    </nav>
-
     <!-- メインコンテンツ -->
     <div class="content">
 

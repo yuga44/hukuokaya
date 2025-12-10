@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'db-connect.php';
+require 'ribbon.php';
 
 // ★ ログインチェック（member_id がないときはログイン画面へ）
 if (!isset($_SESSION['member_id'])) {
@@ -42,33 +43,6 @@ try {
   <link rel="stylesheet" href="css/favorite.css">
 </head>
 <body>
-  <!-- ナビゲーションバー -->
-  <nav class="navigation-rail">
-      <div class="nav-item">
-        <a href="mainpage.php">
-          <img src="img/click_scam.jpg" alt="メインページ" />
-        </a>
-        <span>メインページ</span>
-      </div>
-      <div class="nav-item">
-        <a href="mypage.php">
-          <img src="img/click_scam.jpg" alt="マイページ" />
-        </a>
-        <span>マイページ</span>
-      </div>
-      <div class="nav-item">
-        <a href="cart-list.php">
-          <img src="img/click_scam.jpg" alt="カート" />
-        </a>
-        <span>カート</span>
-      </div>
-      <div class="nav-item">
-        <a href="listing.php">
-          <img src="img/click_scam.jpg" alt="出品" />
-        </a>
-        <span>出品</span>
-      </div>
-    </nav>
     
   <main class="content">
     <!-- アプリバー -->
